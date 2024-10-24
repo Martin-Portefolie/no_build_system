@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello WeeksController!{% endblock %}
+{% block body %}
+
+    <!-- Turbo Frame for partial page updates -->
+    <turbo-frame id="week-frame" data-controller="weeks">
+        <div>
+            <!-- Navigation links with correct week-year format -->
+            <a href="/weeks/{{ week == 1 ? 53 : week - 1 }}-{{ week == 1 ? year - 1 : year }}"
+               data-week="{{ week == 1 ? 53 : week - 1 }}"
+               data-year="{{ week == 1 ? year - 1 : year }}"
+               data-action="click->weeks#navigate">Previous Week</a>
+
+            <a href="/weeks/{{ week == 53 ? 1 : week + 1 }}-{{ week == 53 ? year + 1 : year }}"
+               data-week="{{ week == 53 ? 1 : week + 1 }}"
+               data-year="{{ week == 53 ? year + 1 : year }}"
+               data-action="click->weeks#navigate">Next Week</a>
+        </div>
+    </turbo-frame>
+{#{{ dump(week) }}#}
+{#{{ dump(year) }}#}
+
+{#    <!-- Turbo Frame for partial page updates -->#}
+{#    <turbo-frame id="week-frame">#}
+{#        <h2 id="weeknumber">Week {{ week }}</h2>#}
+{#        <div>#}
+
+{#            <!-- Navigation links with correct URLs for the new week -->#}
+{#            <a href="/weeks/{{ week - 1 }}-{{ year }}" data-turbo-action="advance">Previous Week</a>#}
+{#            <a href="/weeks/{{ week + 1 }}-{{ year }}" data-turbo-action="advance">Next Week</a>#}
+{#        </div>#}
+{#    </turbo-frame>#}
+{% endblock %}
+
+
+

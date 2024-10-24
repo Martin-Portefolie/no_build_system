@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Week {{ week }} - {{ year }}{% endblock %}
+
+{% block body %}
+
+
+    <!-- Turbo Frame for partial page updates -->
+    <turbo-frame id="test-frame" data-controller="test">
+        <div>
+            <h2 id="weeknumber">Week {{ week }} - {{ year }}</h2>
+            <!-- Navigation links with correct week-year format -->
+            <a href="/test/weeks/{{ week == 1 ? 53 : week - 1 }}-{{ week == 1 ? year - 1 : year }}"
+               data-week="{{ week == 1 ? 53 : week - 1 }}"
+               data-year="{{ week == 1 ? year - 1 : year }}"
+               data-action="click->test#navigate">Previous Week</a>
+
+            <a href="/test/weeks/{{ week == 53 ? 1 : week + 1 }}-{{ week == 53 ? year + 1 : year }}"
+               data-week="{{ week == 53 ? 1 : week + 1 }}"
+               data-year="{{ week == 53 ? year + 1 : year }}"
+               data-action="click->test#navigate">Next Week</a>
+        </div>
+
+        <!-- Week Data and Events -->
+        <div class="week-container">
+            {% for day in weeklyData %}
+                <div class="day">
+                    <h3>{{ day.date|date('l, F j, Y') }}</h3>
+                    {% if day.events is not empty %}
+                        <ul>
+                            {% for event in day.events %}
+                                <li>{{ event.title }}: {{ event.start }} - {{ event.end }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No events</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </turbo-frame>
+{% endblock %}
