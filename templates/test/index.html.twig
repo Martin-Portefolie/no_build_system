@@ -5,38 +5,160 @@
 {% block body %}
 
 
-    <!-- Turbo Frame for partial page updates -->
+    {#    <!-- Turbo Frame for partial page updates -->#}
+    {#    <turbo-frame id="test-frame" data-controller="test">#}
+    {#        <div>#}
+    {#            <h2 id="weeknumber">Week {{ week }} - {{ year }}</h2>#}
+    {#            <!-- Navigation links with correct week-year format -->#}
+    {#            <a href="/test/weeks/{{ week == 1 ? 53 : week - 1 }}-{{ week == 1 ? year - 1 : year }}"#}
+    {#               data-week="{{ week == 1 ? 53 : week - 1 }}"#}
+    {#               data-year="{{ week == 1 ? year - 1 : year }}"#}
+    {#               data-action="click->test#navigate">Previous Week</a>#}
+
+    {#            <a href="/test/weeks/{{ week == 53 ? 1 : week + 1 }}-{{ week == 53 ? year + 1 : year }}"#}
+    {#               data-week="{{ week == 53 ? 1 : week + 1 }}"#}
+    {#               data-year="{{ week == 53 ? year + 1 : year }}"#}
+    {#               data-action="click->test#navigate">Next Week</a>#}
+    {#        </div>#}
+
+    {#        <!-- Week Data and Events -->#}
+    {#        <div class="week-container">#}
+
+    {#            {% for day in weeklyData %}#}
+    {#                <div class="day">#}
+    {#                    <h3>{{ day.date|date('l, F j, Y') }}</h3>#}
+    {#                    {% if day.events is not empty %}#}
+    {#                        <turbo-frame id="new_event_{{ day.date|date('Y-m-d') }}">#}
+    {#                            <a href="{{ path('test_week_new', { 'date': day.date|date('Y-m-d') } ) }}" data-turbo="false">#}
+    {#                                <button class="plus-button border-none text-gray-400 hover:bg-gray-200 p-2 rounded-full">+ add new event</button>#}
+    {#                            </a>#}
+    {#                        </turbo-frame>#}
+    {#                        <ul>#}
+    {#                            {% for event in day.events %}#}
+    {#                            <turbo-frame id="event_{{ event.id }}">#}
+    {#                                <li>#}
+    {#                                    {{ event.title }}#}
+    {#                                    <a href="{{ path('test_event_edit', { id: event.id }) }}" data-turbo="false">Edit</a>#}
+
+    {#                                    <form action="{{ path('test_event_delete', { id: event.id }) }}" method="post" style="display:inline-block;" data-turbo-frame="event_{{ event.id }}">#}
+    {#                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">#}
+    {#                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this event?');" class="text-danger border-0 bg-transparent">#}
+    {#                                            Delete#}
+    {#                                        </button>#}
+    {#                                    </form>#}
+
+
+    {#                                </li>#}
+    {#                            </turbo-frame>#}
+    {#                            {% endfor %}#}
+    {#                        </ul>#}
+    {#                    {% else %}#}
+    {#                        <turbo-frame id="new_event_{{ day.date|date('Y-m-d') }}">#}
+    {#                            <a href="{{ path('test_week_new', { 'date': day.date|date('Y-m-d') } ) }}" data-turbo="false">#}
+    {#                                <button class="plus-button border-none text-gray-400 hover:bg-gray-200 p-2 rounded-full">+ add new event</button>#}
+    {#                            </a>#}
+    {#                        </turbo-frame>#}
+    {#                    {% endif %}#}
+    {#                </div>#}
+    {#            {% endfor %}#}
+    {#        </div>#}
+    {#    </turbo-frame>#}
+
+        <!-- Turbo Frame for partial page updates -->
     <turbo-frame id="test-frame" data-controller="test">
-        <div>
-            <h2 id="weeknumber">Week {{ week }} - {{ year }}</h2>
-            <!-- Navigation links with correct week-year format -->
-            <a href="/test/weeks/{{ week == 1 ? 53 : week - 1 }}-{{ week == 1 ? year - 1 : year }}"
-               data-week="{{ week == 1 ? 53 : week - 1 }}"
-               data-year="{{ week == 1 ? year - 1 : year }}"
-               data-action="click->test#navigate">Previous Week</a>
+            <section class="relative bg-stone-50 py-10">
+                <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
+                    <!-- Header Section with Navigation Buttons -->
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-5">
+                        <div class="flex items-center gap-4">
+                            <h6 class="text-xl leading-8 font-semibold text-gray-900">Week {{ week }}, {{ year }}</h6>
+                        </div>
+                        <!-- Week Navigation -->
+                        <div class="flex items-center gap-2 rounded-lg bg-gray-100 p-1">
+                            <a href="/test/weeks/{{ week == 1 ? 53 : week - 1 }}-{{ week == 1 ? year - 1 : year }}"
+                               data-week="{{ week == 1 ? 53 : week - 1 }}"
+                               data-year="{{ week == 1 ? year - 1 : year }}"
+                               data-action="click->test#navigate"
+                               class="rounded-lg py-2 px-4 text-sm font-medium text-gray-500 hover:bg-white hover:text-indigo-600">
+                                Previous Week
+                            </a>
+                            <a href="/test/weeks/{{ week == 53 ? 1 : week + 1 }}-{{ week == 53 ? year + 1 : year }}"
+                               data-week="{{ week == 53 ? 1 : week + 1 }}"
+                               data-year="{{ week == 53 ? year + 1 : year }}"
+                               data-action="click->test#navigate"
+                               class="rounded-lg py-2 px-4 text-sm font-medium text-gray-500 hover:bg-white hover:text-indigo-600">
+                                Next Week
+                            </a>
+                        </div>
+                    </div>
 
-            <a href="/test/weeks/{{ week == 53 ? 1 : week + 1 }}-{{ week == 53 ? year + 1 : year }}"
-               data-week="{{ week == 53 ? 1 : week + 1 }}"
-               data-year="{{ week == 53 ? year + 1 : year }}"
-               data-action="click->test#navigate">Next Week</a>
-        </div>
-
-        <!-- Week Data and Events -->
-        <div class="week-container">
-            {% for day in weeklyData %}
-                <div class="day">
-                    <h3>{{ day.date|date('l, F j, Y') }}</h3>
-                    {% if day.events is not empty %}
-                        <ul>
-                            {% for event in day.events %}
-                                <li>{{ event.title }}: {{ event.start }} - {{ event.end }}</li>
+                    <!-- Calendar Grid -->
+                    <div class="relative">
+                        <div class="grid grid-cols-7 border-t border-gray-200">
+                            <!-- Headers for Each Day -->
+                            {% for day in weeklyData %}
+                                <div class="p-3.5 text-center text-sm font-medium text-gray-900 bg-gray-100">{{ day.date|date('l, M j') }}</div>
                             {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>No events</p>
-                    {% endif %}
+                        </div>
+
+                        <!-- Day Blocks for Events -->
+                        <div class="grid grid-cols-7 w-full overflow-x-auto">
+                            {% for day in weeklyData %}
+                                <div class="h-32 p-3.5 border-t border-r border-gray-200 transition-all hover:bg-stone-100">
+                                    <turbo-frame id="new_event_{{ day.date|date('Y-m-d') }}">
+                                        <a href="{{ path('test_week_new', { 'date': day.date|date('Y-m-d') } ) }}" class="text-xs text-indigo-500 hover:underline" data-turbo="false">
+                                            + Add Event
+                                        </a>
+                                    </turbo-frame>
+                                    <!-- Event Display -->
+                                    {% if day.events is not empty %}
+                                        <ul class="space-y-2">
+                                            {% for event in day.events %}
+
+                                                    <li class="flex items-center justify-between space-x-2 bg-white p-2 rounded-md shadow-sm hover:bg-gray-50">
+                                                        <!-- Event Title -->
+                                                        <p class="flex-1 font-semibold text-gray-800 text-sm">
+                                                            {{ event.title }}
+                                                        </p>
+
+                                                        <!-- Action Icons for Edit and Delete -->
+                                                        <div class="flex space-x-3 items-center">
+                                                            <!-- Edit Icon -->
+                                                            <a href="{{ path('test_event_edit', { id: event.id }) }}" class="text-blue-500 hover:text-blue-600" data-turbo="false" title="Edit">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232a3 3 0 114.243 4.243l-9.899 9.899a4.5 4.5 0 01-1.697 1.068l-3.257 1.085a.75.75 0 01-.95-.95l1.085-3.257a4.5 4.5 0 011.068-1.697l9.899-9.899z" />
+                                                                </svg>
+                                                            </a>
+
+                                                            <!-- Delete Icon with Confirmation -->
+                                                            <form action="{{ path('test_event_delete', { id: event.id }) }}" method="post" class="inline">
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+                                                                <button type="submit" class="text-red-500 hover:text-red-600" onclick="return confirm('Delete this event?');" title="Delete">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6M5.5 7.5l13 13M15 3v2m-6 0v2M6 5h12M4 7h16" />
+                                                                    </svg>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </li>
+
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <!-- No Events Button to Add New Event -->
+                                        <p class="flex-1 font-semibold text-gray-800 text-sm">
+                                            no data
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
-            {% endfor %}
-        </div>
+            </section>
+
+
+
     </turbo-frame>
+
 {% endblock %}

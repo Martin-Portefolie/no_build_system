@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Form\EventType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -93,4 +95,87 @@ class TestController extends AbstractController
             'weeklyData' => $data, // Pass the weekly data with events to the template
         ]);
     }
+
+    #[Route('/test/weeks/new/{date}', name: 'test_week_new', methods: ['GET', 'POST'])]
+    public function newEvent(Request $request, string $date): Response
+    {
+        try {
+            $dateObject = new DateTime($date);
+        } catch (\Exception $e) {
+            return new Response('Invalid date format.', 400);
+        }
+
+        $event = new Event();
+        $event->setDateStart($dateObject);
+
+        // Set a default end time 1 hour after the start time
+        $dateEnd = (clone $dateObject)->modify('+1 hour');
+        $event->setDateEnd($dateEnd);
+
+        // Use the EventType form class to create the form
+        $form = $this->createForm(EventType::class, $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($event);
+            $this->entityManager->flush();
+
+            // Redirect after successful form submission
+            return new RedirectResponse($this->generateUrl('test_weeks'), 303);
+        }
+
+        return $this->render('test/new.html.twig', [
+            'form' => $form->createView(),
+            'event' => $event,
+            'date' => $dateObject,
+        ]);
+    }
+    #[Route('/test/weeks/edit/{id}', name: 'test_event_edit', methods: ['GET', 'POST'])]
+    public function editEvent(Request $request, int $id): Response
+    {
+        $event = $this->entityManager->getRepository(Event::class)->find($id);
+
+        if (!$event) {
+            throw $this->createNotFoundException('Event not found');
+        }
+
+        $form = $this->createForm(EventType::class, $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('test_weeks');
+        }
+
+        return $this->render('test/edit.html.twig', [
+            'form' => $form->createView(),
+            'event' => $event,
+        ]);
+    }
+
+    #[Route('/test/weeks/delete/{id}', name: 'test_event_delete', methods: ['POST'])]
+    public function deleteEvent(Request $request, int $id): Response
+    {
+        $event = $this->entityManager->getRepository(Event::class)->find($id);
+
+        if (!$event) {
+            throw $this->createNotFoundException('Event not found');
+        }
+
+        // Validate CSRF token
+        if (!$this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
+            return $this->redirectToRoute('test_weeks');
+        }
+
+        // Delete the event
+        $this->entityManager->remove($event);
+        $this->entityManager->flush();
+
+        // Redirect to the main view to reload the page
+        return $this->redirectToRoute('test_weeks');
+    }
+
 }
+
+
