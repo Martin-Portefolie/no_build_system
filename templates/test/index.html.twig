@@ -102,9 +102,10 @@
                         </div>
 
                         <!-- Day Blocks for Events -->
+                        <!-- Day Blocks for Events -->
                         <div class="grid grid-cols-7 w-full overflow-x-auto">
                             {% for day in weeklyData %}
-                                <div class="h-32 p-3.5 border-t border-r border-gray-200 transition-all hover:bg-stone-100">
+                                <div class=" min-h-[8rem] p-3.5 border-t border-r border-gray-200 transition-all hover:bg-stone-100">
                                     <turbo-frame id="new_event_{{ day.date|date('Y-m-d') }}">
                                         <a href="{{ path('test_week_new', { 'date': day.date|date('Y-m-d') } ) }}" class="text-xs text-indigo-500 hover:underline" data-turbo="false">
                                             + Add Event
@@ -114,45 +115,38 @@
                                     {% if day.events is not empty %}
                                         <ul class="space-y-2">
                                             {% for event in day.events %}
+                                                <li class="bg-white p-2 rounded-md shadow-sm hover:bg-gray-50">
+                                                    <!-- Event Title -->
+                                                    <p class=" text-gray-800 text-sm mb-2 break-words">
+                                                        {{ event.title }}
+                                                    </p>
 
-                                                    <li class="flex items-center justify-between space-x-2 bg-white p-2 rounded-md shadow-sm hover:bg-gray-50">
-                                                        <!-- Event Title -->
-                                                        <p class="flex-1 font-semibold text-gray-800 text-sm">
-                                                            {{ event.title }}
-                                                        </p>
+                                                    <!-- Action Icons for Edit and Delete, positioned under the title -->
+                                                    <div class="flex space-x-3 items-center justify-end mt-1">
+                                                        <!-- Edit Icon -->
+                                                        <a href="{{ path('test_event_edit', { id: event.id }) }}" class="text-gray-800 hover:text-blue-600" data-turbo="false" title="Edit">
+                                                            {{ ux_icon('ic:baseline-edit') }}
+                                                        </a>
 
-                                                        <!-- Action Icons for Edit and Delete -->
-                                                        <div class="flex space-x-3 items-center">
-                                                            <!-- Edit Icon -->
-                                                            <a href="{{ path('test_event_edit', { id: event.id }) }}" class="text-blue-500 hover:text-blue-600" data-turbo="false" title="Edit">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232a3 3 0 114.243 4.243l-9.899 9.899a4.5 4.5 0 01-1.697 1.068l-3.257 1.085a.75.75 0 01-.95-.95l1.085-3.257a4.5 4.5 0 011.068-1.697l9.899-9.899z" />
-                                                                </svg>
-                                                            </a>
-
-                                                            <!-- Delete Icon with Confirmation -->
-                                                            <form action="{{ path('test_event_delete', { id: event.id }) }}" method="post" class="inline">
-                                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
-                                                                <button type="submit" class="text-red-500 hover:text-red-600" onclick="return confirm('Delete this event?');" title="Delete">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6M5.5 7.5l13 13M15 3v2m-6 0v2M6 5h12M4 7h16" />
-                                                                    </svg>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    </li>
-
+                                                        <!-- Delete Icon with Confirmation -->
+                                                        <form action="{{ path('test_event_delete', { id: event.id }) }}" method="post" class="inline">
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+                                                            <button type="submit" class="text-gray-800 hover:text-red-600" onclick="return confirm('Delete this event?');" title="Delete">
+                                                                {{ ux_icon('ic:baseline-delete') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </li>
                                             {% endfor %}
                                         </ul>
                                     {% else %}
-                                        <!-- No Events Button to Add New Event -->
-                                        <p class="flex-1 font-semibold text-gray-800 text-sm">
-                                            no data
-                                        </p>
+                                        <!-- No Events Placeholder Text -->
+                                        <p class="flex-1  text-gray-800 text-sm">No data</p>
                                     {% endif %}
                                 </div>
                             {% endfor %}
                         </div>
+
                     </div>
                 </div>
             </section>
