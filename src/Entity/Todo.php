@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TodoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,7 +19,7 @@ class Todo
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $data = [];
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -25,6 +27,20 @@ class Todo
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateEnd = null;
+
+    #[ORM\ManyToOne(inversedBy: 'todos')]
+    private ?Project $project = null;
+
+    /**
+     * @var Collection<int, Timelog>
+     */
+    #[ORM\OneToMany(targetEntity: Timelog::class, mappedBy: 'todo')]
+    private Collection $timelogs;
+
+    public function __construct()
+    {
+        $this->timelogs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +91,48 @@ class Todo
     public function setDateEnd(\DateTimeInterface $dateEnd): static
     {
         $this->dateEnd = $dateEnd;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): static
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Timelog>
+     */
+    public function getTimelogs(): Collection
+    {
+        return $this->timelogs;
+    }
+
+    public function addTimelog(Timelog $timelog): static
+    {
+        if (!$this->timelogs->contains($timelog)) {
+            $this->timelogs->add($timelog);
+            $timelog->setTodo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimelog(Timelog $timelog): static
+    {
+        if ($this->timelogs->removeElement($timelog)) {
+            // set the owning side to null (unless already changed)
+            if ($timelog->getTodo() === $this) {
+                $timelog->setTodo(null);
+            }
+        }
 
         return $this;
     }

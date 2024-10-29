@@ -14,28 +14,54 @@ class Timelog
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
-    private ?string $hours = null;
+
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $totalMinutes = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
+
+    #[ORM\ManyToOne(inversedBy: 'timelogs')]
+    private ?Todo $todo = null;
+
+    #[ORM\ManyToOne(inversedBy: 'timelogs')]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getHours(): ?string
+
+    public function getTotalMinutes(): ?int
     {
-        return $this->hours;
+        return $this->totalMinutes;
     }
 
-    public function setHours(?string $hours): static
+    public function setTotalMinutes(int $minutes): static
     {
-        $this->hours = $hours;
-
+        $this->totalMinutes = $minutes;
         return $this;
     }
+
+// Helper methods to convert total minutes to hours and minutes
+    public function getHours(): int
+    {
+        return intdiv($this->totalMinutes, 60);
+    }
+
+    public function getMinutes(): int
+    {
+        return $this->totalMinutes % 60;
+    }
+
+// Helper method to set hours and minutes
+    public function setHoursAndMinutes(int $hours, int $minutes): static
+    {
+        $this->totalMinutes = ($hours * 60) + $minutes;
+        return $this;
+    }
+
 
     public function getDate(): ?\DateTimeInterface
     {
@@ -45,6 +71,30 @@ class Timelog
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getTodo(): ?Todo
+    {
+        return $this->todo;
+    }
+
+    public function setTodo(?Todo $todo): static
+    {
+        $this->todo = $todo;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

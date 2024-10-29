@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\TeamRepository;
+use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TeamRepository::class)]
-class Team
+#[ORM\Entity(repositoryClass: ClientRepository::class)]
+class Client
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,21 +19,20 @@ class Team
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'teams')]
-    private Collection $users;
+    #[ORM\Column(length: 20)]
+    private ?string $contactPhone = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $contactEmail = null;
 
     /**
      * @var Collection<int, Project>
      */
-    #[ORM\ManyToMany(targetEntity: Project::class, inversedBy: 'teams')]
+    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'client')]
     private Collection $projects;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->projects = new ArrayCollection();
     }
 
@@ -53,29 +53,26 @@ class Team
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
+    public function getContactPhone(): ?string
     {
-        return $this->users;
+        return $this->contactPhone;
     }
 
-    public function addUser(User $user): static
+    public function setContactPhone(string $contactPhone): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addTeam($this);
-        }
+        $this->contactPhone = $contactPhone;
 
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function getContactEmail(): ?string
     {
-        if ($this->users->removeElement($user)) {
-            $user->removeTeam($this);
-        }
+        return $this->contactEmail;
+    }
+
+    public function setContactEmail(string $contactEmail): static
+    {
+        $this->contactEmail = $contactEmail;
 
         return $this;
     }
@@ -92,6 +89,7 @@ class Team
     {
         if (!$this->projects->contains($project)) {
             $this->projects->add($project);
+            $project->setClient($this);
         }
 
         return $this;
@@ -99,7 +97,12 @@ class Team
 
     public function removeProject(Project $project): static
     {
-        $this->projects->removeElement($project);
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getClient() === $this) {
+                $project->setClient(null);
+            }
+        }
 
         return $this;
     }
