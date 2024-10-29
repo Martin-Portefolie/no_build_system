@@ -42,25 +42,34 @@ class CreateUserCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        // Create Admin User
         $admin = new User();
         $admin->setUsername('admin');
-        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin'));
         $admin->setEmail('a@a.com');
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin123'));
         $admin->setRoles(['ROLE_ADMIN']);
         $this->entityManager->persist($admin);
 
-        $user = new User();
-        $user->setUsername('user');
-        $user->setPassword($this->passwordHasher->hashPassword($user, 'user'));
-        $user->setEmail('b@b.com');
-        $user->setRoles(['ROLE_USER']);
-        $this->entityManager->persist($user);
+        // Create Regular User 1
+        $user1 = new User();
+        $user1->setUsername('Hest');
+        $user1->setEmail('b@b.com');
+        $user1->setPassword($this->passwordHasher->hashPassword($user1, 'user123'));
+        $user1->setRoles(['ROLE_USER']);
+        $this->entityManager->persist($user1);
 
+        // Create Regular User 2
+        $user2 = new User();
+        $user2->setUsername('Test');
+        $user2->setEmail('c@c.com');
+        $user2->setPassword($this->passwordHasher->hashPassword($user2, 'user123'));
+        $user2->setRoles(['ROLE_USER']);
+        $this->entityManager->persist($user2);
+
+        // Save all three users
         $this->entityManager->flush();
 
-
-
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success('Test users created: Admin (a@a.com / admin123), User1 (b@b.com / Hest), and User2 (c@c.com / Test)');
 
         return Command::SUCCESS;
     }
