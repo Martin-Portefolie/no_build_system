@@ -6,4 +6,20 @@
 {{ dump(date) }}
 {{ dump(weeknumber) }}
     {{ dump(year) }}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <br>Hello you have acess
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <br>Hello admin
+    {% endif %}
+
+    {% if is_granted('ROLE_USER') %}
+        hello user
+    {% endif %}
+{#    <img src="{{ asset('icons/logo/logo.svg') }}" alt="Calendar Horse Logo">#}
+
+
 {% endblock %}
+
+
+

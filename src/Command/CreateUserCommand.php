@@ -42,13 +42,20 @@ class CreateUserCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $admin = new User();
+        $admin->setUsername('admin');
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin'));
+        $admin->setEmail('a@a.com');
+        $admin->setRoles(['ROLE_ADMIN']);
+        $this->entityManager->persist($admin);
+
         $user = new User();
-        $user->setUsername('admin');
-        $user->setPassword($this->passwordHasher->hashPassword($user, 'admin'));
-        $user->setEmail('a@a.com');
-        $user->setRoles(['ROLE_ADMIN']);
-        $user->setEnabled(true);
+        $user->setUsername('user');
+        $user->setPassword($this->passwordHasher->hashPassword($user, 'user'));
+        $user->setEmail('b@b.com');
+        $user->setRoles(['ROLE_USER']);
         $this->entityManager->persist($user);
+
         $this->entityManager->flush();
 
 
