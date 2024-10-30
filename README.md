@@ -32,9 +32,15 @@ open http://horseshoes.local.itkdev.dk/
 docker compose exec phpfpm bin/console doctrine:migration:migrate
 ## to initiate 
 
-docker-compose exec phpfpm bin/console doctrine:schema:drop --full-database --force; 
+docker compose exec phpfpm bin/console doctrine:schema:drop --full-database --force; 
+docker compose exec phpfpm bin/console make:migration
 docker compose exec phpfpm bin/console doctrine:migration:migrate
 docker compose exec phpfpm bin/console create-user
+docker compose exec phpfpm bin/console create-client
+docker compose exec phpfpm bin/console create-project
+docker compose exec phpfpm bin/console create-team
+docker compose exec phpfpm bin/console create-todo
+docker compose bin/console create-team "Pegasus Team" a@a.com b@b.com
 
 ```
 
