@@ -19,9 +19,6 @@ class Todo
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::JSON)]
-    private array $data = [];
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateStart = null;
 
@@ -59,17 +56,7 @@ class Todo
         return $this;
     }
 
-    public function getData(): array
-    {
-        return $this->data;
-    }
 
-    public function setData(array $data): static
-    {
-        $this->data = $data;
-
-        return $this;
-    }
 
     public function getDateStart(): ?\DateTimeInterface
     {
