@@ -9,6 +9,7 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <br>Hello you have acess
     {% endif %}
+
     {% if is_granted('ROLE_ADMIN') %}
         <br>Hello admin
     {% endif %}
