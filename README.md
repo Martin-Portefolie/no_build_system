@@ -38,9 +38,8 @@ docker compose exec phpfpm bin/console create-user
 docker compose exec phpfpm bin/console create-client
 docker compose exec phpfpm bin/console create-project
 docker compose exec phpfpm bin/console create-team "Pegasus Team" a@a.com b@b.com --projectName="Project Pegasus"
-docker compose exec phpfpm bin/console create-todo 1 "Storyboard Creation" --description="Create the initial storyboard for Project Pegasus" --start_date="2024-11-01" --end_date="2024-11-02"
-docker compose exec phpfpm bin/console create-timelog admin 1 2 30 2024-10-30
-
+docker compose exec phpfpm bin/console create-todo 1 "Storyboard Development"  "2024-10-31" "2024-11-02"
+docker compose exec phpfpm bin/console create-timelog "admin" 1 2 30 "2024-10-31" "Completed the storyboard initial draft"
 
 ```
 

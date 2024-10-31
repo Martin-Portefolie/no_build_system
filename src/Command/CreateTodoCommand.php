@@ -6,6 +6,7 @@ use App\Entity\Client;
 use App\Entity\Project;
 use App\Entity\Todo;
 use App\Entity\User;
+use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -22,60 +23,57 @@ use function PHPUnit\Framework\throwException;
 )]
 class CreateTodoCommand extends Command
 {
-    private $entityManager;
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-        parent::__construct();
-    }
+    private EntityManagerInterface $entityManager;
+    private ProjectRepository $projectRepository;
 
+    public function __construct(EntityManagerInterface $entityManager, ProjectRepository $projectRepository)
+    {
+        parent::__construct();
+        $this->entityManager = $entityManager;
+        $this->projectRepository = $projectRepository;
+    }
 
     protected function configure(): void
     {
         $this
-            ->addArgument('project_id', InputArgument::REQUIRED, 'ID of the project to assign the Todo')
-            ->addArgument('name', InputArgument::REQUIRED, 'Name of the Todo task')
-            ->addOption('description', null, InputOption::VALUE_OPTIONAL, 'Description of the Todo')
-            ->addOption('start_date', null, InputOption::VALUE_OPTIONAL, 'Start date of the Todo (Y-m-d format)')
-            ->addOption('end_date', null, InputOption::VALUE_OPTIONAL, 'End date of the Todo (Y-m-d format)');
+            ->addArgument('projectId', InputArgument::REQUIRED, 'The ID of the project to associate the todo with')
+            ->addArgument('name', InputArgument::REQUIRED, 'The name of the todo')
+            ->addArgument('dateStart', InputArgument::REQUIRED, 'Start date of the todo (Y-m-d)')
+            ->addArgument('dateEnd', InputArgument::REQUIRED, 'End date of the todo (Y-m-d)');
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        // Retrieve input arguments and options
-        $projectId = $input->getArgument('project_id');
+        // Retrieve input values
+        $projectId = (int) $input->getArgument('projectId');
         $name = $input->getArgument('name');
-        $description = $input->getOption('description');
-        $startDate = $input->getOption('start_date') ? new \DateTime($input->getOption('start_date')) : new \DateTime();
-        $endDate = $input->getOption('end_date') ? new \DateTime($input->getOption('end_date')) : (clone $startDate)->modify('+1 day');
+        $dateStart = new \DateTime($input->getArgument('dateStart'));
+        $dateEnd = new \DateTime($input->getArgument('dateEnd'));
 
-        // Find the Project by ID
-        $project = $this->entityManager->getRepository(Project::class)->find($projectId);
+        // Fetch the project entity
+        $project = $this->projectRepository->find($projectId);
 
         if (!$project) {
-            $io->error("Project with ID $projectId not found.");
+            $io->error('Invalid project ID.');
             return Command::FAILURE;
         }
 
-        // Create and set up the new Todo
+        // Create and save the todo entry
         $todo = new Todo();
         $todo->setName($name);
+        $todo->setDateStart($dateStart);
+        $todo->setDateEnd($dateEnd);
         $todo->setProject($project);
-        $todo->setDateStart($startDate);
-        $todo->setDateEnd($endDate);
 
-        if ($description) {
-            $todo->setData(['description' => $description]);
-        }
-
-        // Persist the Todo
         $this->entityManager->persist($todo);
         $this->entityManager->flush();
 
-        $io->success("Todo '$name' successfully created for project '{$project->getName()}' with ID: {$todo->getId()}");
-
+        $io->success("Todo '{$name}' has been created and associated with project '{$project->getName()}'.");
         return Command::SUCCESS;
     }
 }

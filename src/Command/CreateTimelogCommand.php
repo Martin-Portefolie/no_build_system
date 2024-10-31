@@ -35,13 +35,17 @@ class CreateTimelogCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('username', InputArgument::REQUIRED, 'Username of the user logging time')
-            ->addArgument('todoId', InputArgument::REQUIRED, 'ID of the todo')
-            ->addArgument('hours', InputArgument::REQUIRED, 'Hours to log (0-23)')
-            ->addArgument('minutes', InputArgument::REQUIRED, 'Minutes to log (0-59)')
-            ->addArgument('date', InputArgument::REQUIRED, 'Date of the time log (Y-m-d)');
+            ->addArgument('username', InputArgument::REQUIRED, 'The username of the user logging time')
+            ->addArgument('todoId', InputArgument::REQUIRED, 'The ID of the todo')
+            ->addArgument('hours', InputArgument::REQUIRED, 'Hours to log')
+            ->addArgument('minutes', InputArgument::REQUIRED, 'Minutes to log')
+            ->addArgument('date', InputArgument::REQUIRED, 'Date of the time log (Y-m-d)')
+            ->addArgument('description', InputArgument::OPTIONAL, 'Description or notes about the work done');
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -52,23 +56,14 @@ class CreateTimelogCommand extends Command
         $hours = (int) $input->getArgument('hours');
         $minutes = (int) $input->getArgument('minutes');
         $date = new \DateTime($input->getArgument('date'));
-
-        if ($hours < 0 || $hours > 23 || $minutes < 0 || $minutes > 59) {
-            $io->error('Invalid time input. Hours should be between 0-23, and minutes between 0-59.');
-            return Command::FAILURE;
-        }
+        $description = $input->getArgument('description') ?? '';  // Description is optional
 
         // Fetch user and todo entities
         $user = $this->userRepository->findOneBy(['username' => $username]);
         $todo = $this->todoRepository->find($todoId);
 
-        if (!$user) {
-            $io->error("User '{$username}' not found.");
-            return Command::FAILURE;
-        }
-
-        if (!$todo) {
-            $io->error("Todo with ID '{$todoId}' not found.");
+        if (!$user || !$todo) {
+            $io->error('Invalid username or todo ID.');
             return Command::FAILURE;
         }
 
@@ -93,11 +88,12 @@ class CreateTimelogCommand extends Command
         $timelog->setTodo($todo);
         $timelog->setTotalMinutes($hours * 60 + $minutes);
         $timelog->setDate($date);
+        $timelog->setDescription($description);
 
         $this->entityManager->persist($timelog);
         $this->entityManager->flush();
 
-        $io->success("Time logged for user '{$username}' on todo '{$todo->getName()}'.");
+        $io->success("Time logged for user '{$username}' on todo '{$todo->getName()}'. Description: {$description}");
         return Command::SUCCESS;
     }
 }

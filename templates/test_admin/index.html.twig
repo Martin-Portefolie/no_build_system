@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client Management{% endblock %}
+
+{% block body %}
+    <section class="relative bg-stone-50 py-10">
+        <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
+            <!-- Header Section -->
+            <div class="flex items-center justify-between mb-5">
+                <h1 class="text-2xl font-semibold text-gray-900">Client Management</h1>
+            </div>
+
+            <!-- Client List -->
+            <div class="space-y-6">
+                {% for client in clientDataArray %}
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <form action="#" method="post">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                                <!-- Client Name -->
+                                <div>
+                                    <label for="name_{{ client.id }}" class="block text-sm font-medium text-gray-700">Name</label>
+                                    <input type="text" name="name" id="name_{{ client.id }}" value="{{ client.name }}"
+                                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-gray-900">
+                                </div>
+
+                                <!-- Client Email -->
+                                <div>
+                                    <label for="email_{{ client.id }}" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" name="email" id="email_{{ client.id }}" value="{{ client.email }}"
+                                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-gray-900">
+                                </div>
+
+                                <!-- Client Phone -->
+                                <div>
+                                    <label for="phone_{{ client.id }}" class="block text-sm font-medium text-gray-700">Phone</label>
+                                    <input type="text" name="phone" id="phone_{{ client.id }}" value="{{ client.phone }}"
+                                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-gray-900">
+                                </div>
+
+                                <!-- Projects (non-editable) -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Projects</label>
+                                    <ul class="mt-1 text-sm text-gray-800">
+                                        {% for project in client.projects %}
+                                            <li class="py-1">{{ project.name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Edit/Save and Delete Buttons -->
+                            <div class="flex justify-end space-x-3 mt-4">
+                                <!-- Save Button -->
+                                <button type="submit"
+                                        class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+                                    Save
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

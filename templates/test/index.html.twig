@@ -5,65 +5,6 @@
 {% block body %}
 
 
-    {#    <!-- Turbo Frame for partial page updates -->#}
-    {#    <turbo-frame id="test-frame" data-controller="test">#}
-    {#        <div>#}
-    {#            <h2 id="weeknumber">Week {{ week }} - {{ year }}</h2>#}
-    {#            <!-- Navigation links with correct week-year format -->#}
-    {#            <a href="/test/weeks/{{ week == 1 ? 53 : week - 1 }}-{{ week == 1 ? year - 1 : year }}"#}
-    {#               data-week="{{ week == 1 ? 53 : week - 1 }}"#}
-    {#               data-year="{{ week == 1 ? year - 1 : year }}"#}
-    {#               data-action="click->test#navigate">Previous Week</a>#}
-
-    {#            <a href="/test/weeks/{{ week == 53 ? 1 : week + 1 }}-{{ week == 53 ? year + 1 : year }}"#}
-    {#               data-week="{{ week == 53 ? 1 : week + 1 }}"#}
-    {#               data-year="{{ week == 53 ? year + 1 : year }}"#}
-    {#               data-action="click->test#navigate">Next Week</a>#}
-    {#        </div>#}
-
-    {#        <!-- Week Data and Events -->#}
-    {#        <div class="week-container">#}
-
-    {#            {% for day in weeklyData %}#}
-    {#                <div class="day">#}
-    {#                    <h3>{{ day.date|date('l, F j, Y') }}</h3>#}
-    {#                    {% if day.events is not empty %}#}
-    {#                        <turbo-frame id="new_event_{{ day.date|date('Y-m-d') }}">#}
-    {#                            <a href="{{ path('test_week_new', { 'date': day.date|date('Y-m-d') } ) }}" data-turbo="false">#}
-    {#                                <button class="plus-button border-none text-gray-400 hover:bg-gray-200 p-2 rounded-full">+ add new event</button>#}
-    {#                            </a>#}
-    {#                        </turbo-frame>#}
-    {#                        <ul>#}
-    {#                            {% for event in day.events %}#}
-    {#                            <turbo-frame id="event_{{ event.id }}">#}
-    {#                                <li>#}
-    {#                                    {{ event.title }}#}
-    {#                                    <a href="{{ path('test_event_edit', { id: event.id }) }}" data-turbo="false">Edit</a>#}
-
-    {#                                    <form action="{{ path('test_event_delete', { id: event.id }) }}" method="post" style="display:inline-block;" data-turbo-frame="event_{{ event.id }}">#}
-    {#                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">#}
-    {#                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this event?');" class="text-danger border-0 bg-transparent">#}
-    {#                                            Delete#}
-    {#                                        </button>#}
-    {#                                    </form>#}
-
-
-    {#                                </li>#}
-    {#                            </turbo-frame>#}
-    {#                            {% endfor %}#}
-    {#                        </ul>#}
-    {#                    {% else %}#}
-    {#                        <turbo-frame id="new_event_{{ day.date|date('Y-m-d') }}">#}
-    {#                            <a href="{{ path('test_week_new', { 'date': day.date|date('Y-m-d') } ) }}" data-turbo="false">#}
-    {#                                <button class="plus-button border-none text-gray-400 hover:bg-gray-200 p-2 rounded-full">+ add new event</button>#}
-    {#                            </a>#}
-    {#                        </turbo-frame>#}
-    {#                    {% endif %}#}
-    {#                </div>#}
-    {#            {% endfor %}#}
-    {#        </div>#}
-    {#    </turbo-frame>#}
-
         <!-- Turbo Frame for partial page updates -->
     <turbo-frame id="test-frame" data-controller="test">
             <section class="relative bg-stone-50 py-10">
