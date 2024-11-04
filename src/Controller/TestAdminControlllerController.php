@@ -32,6 +32,8 @@ class TestAdminControlllerController extends AbstractController
             ];
         }
 
+
+
         return $this->render('test_admin/index.html.twig', [
             'controller_name' => 'TestAdminControlllerController',
             'clientDataArray' => $clientDataArray,

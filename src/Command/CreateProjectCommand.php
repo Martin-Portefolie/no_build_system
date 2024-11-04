@@ -53,6 +53,7 @@ class CreateProjectCommand extends Command
         $project->setName('Project Pegasus');
         $project->setDescription('A new project owned by Heste-test aps');
         $project->setClient($client);
+        $project->setActive(true);
 
         // Persist and save to database
         $this->entityManager->persist($project);

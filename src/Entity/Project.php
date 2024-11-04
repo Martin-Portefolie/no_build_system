@@ -36,6 +36,9 @@ class Project
     #[ORM\ManyToOne(inversedBy: 'projects')]
     private ?Client $client = null;
 
+    #[ORM\Column]
+    private ?bool $Active = null;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -136,6 +139,18 @@ class Project
     public function setClient(?Client $client): static
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->Active;
+    }
+
+    public function setActive(bool $Active): static
+    {
+        $this->Active = $Active;
 
         return $this;
     }
