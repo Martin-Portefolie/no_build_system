@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New Client{% endblock %}
+
+{% block body %}
+    <div class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-6">Create New Client</h2>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+            Save Client
+        </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

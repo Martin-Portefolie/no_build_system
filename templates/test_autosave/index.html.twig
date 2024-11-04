@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestAutosaveController!{% endblock %}
+
+{% block body %}
+
+        <h1>Autosave Hours and Minutes</h1>
+
+        <div data-controller="autosave">
+            <label>Hours:
+                <input type="number" min="0" name="hours" data-autosave-target="hours" data-action="input->autosave#change" placeholder="Hours" value="{{ hours }}">
+            </label>
+
+            <label>Minutes:
+                <input type="number" min="0" max="59" name="minutes" data-autosave-target="minutes" data-action="input->autosave#change" placeholder="Minutes" value="{{ minutes }}">
+            </label>
+
+            <p id="status"></p>
+
+            <!-- Store the ID as a hidden field for the Stimulus controller -->
+            <input type="hidden" data-autosave-target="id" value="{{ id }}">
+        </div>
+
+{% endblock %}
