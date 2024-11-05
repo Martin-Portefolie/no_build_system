@@ -1,13 +1,19 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/index.html.twig' %}
 
 {% block title %}Client Management{% endblock %}
 
-{% block body %}
+{% block admin_content %}
     <section class="relative bg-stone-50 py-10">
         <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
             <!-- Header Section -->
             <div class="flex items-center justify-between mb-5">
                 <h1 class="text-2xl font-semibold text-gray-900">Client Management</h1>
+
+                <!-- Create New Client Button -->
+                <a href="{{ path('admin_client_new') }}"
+                   class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Create New Client
+                </a>
             </div>
 
             <!-- Client List -->
@@ -38,10 +44,10 @@
                                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-gray-900">
                                 </div>
 
-                                <!-- Projects (non-editable) -->
+                                <!-- Projects (non-editable, styled in light gray) -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Projects</label>
-                                    <ul class="mt-1 text-sm text-gray-800">
+                                    <ul class="mt-1 text-sm text-gray-800 bg-gray-100 rounded-md p-2">
                                         {% for project in client.projects %}
                                             <li class="py-1">{{ project.name }}</li>
                                         {% endfor %}
@@ -52,10 +58,9 @@
                             <div class="flex justify-end space-x-3 mt-4">
                                 <!-- Save Button -->
                                 <button type="submit"
-                                        class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+                                        class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
                                     Save
                                 </button>
-
                             </div>
                         </form>
                     </div>

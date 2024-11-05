@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+    <section class="flex">
+        <!-- Sidebar -->
+        <aside class="w-1/4 bg-gray-200 p-6">
+            <nav class="space-y-4">
+                <a href="{{ path('admin_client') }}" class="block py-2 px-4 rounded-lg hover:bg-gray-300 text-gray-800">Clients</a>
+                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-300 text-gray-800">Projects</a>
+                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-300 text-gray-800">Todos</a>
+                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-300 text-gray-800">Users</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="w-3/4 bg-stone-50 p-10">
+            {% block admin_content %}{% endblock %}
+        </main>
+    </section>
+{% endblock %}
