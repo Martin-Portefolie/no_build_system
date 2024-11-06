@@ -5,19 +5,28 @@
 {% block body %}
     <section class="flex">
         <!-- Sidebar -->
-        <aside class="w-1/4 bg-gray-200 p-6">
+        <aside class="w-1/4 bg-secondary p-6">
             <nav class="space-y-4">
-                <a href="{{ path('admin_client') }}" class="block py-2 px-4 rounded-lg hover:bg-gray-300 text-gray-800">Clients</a>
-                <a href="{{ path('admin_project') }}" class="block py-2 px-4 rounded-lg hover:bg-gray-300 text-gray-800">Projects</a>
-                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-300 text-gray-800">Teams</a>
-                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-300 text-gray-800">Todos</a>
-                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-300 text-gray-800">Users</a>
+                <a href="{{ path('admin_client') }}" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Clients</a>
+                <a href="{{ path('admin_project') }}" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Projects</a>
+                <a href="{{ path('admin_team') }}" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Teams</a>
+                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Todos</a>
+                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Users</a>
             </nav>
         </aside>
 
         <!-- Main Content Area -->
-        <main class="w-3/4 bg-stone-50 p-10">
-            {% block admin_content %}{% endblock %}
+        <main class="w-3/4 bg-background-main p-10">
+            <header class="mb-5">
+                <h1 class="text-3xl font-semibold text-text-headline">Admin Dashboard</h1>
+                <p class="text-base text-text-subheadline mt-1">Manage clients, projects, teams, and more.</p>
+            </header>
+
+            <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+                {% block admin_content %}
+                    <!-- Content from individual admin pages will be injected here -->
+                {% endblock %}
+            </div>
         </main>
     </section>
 {% endblock %}

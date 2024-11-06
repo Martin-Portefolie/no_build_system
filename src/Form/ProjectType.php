@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Client;
 use App\Entity\Project;
+use App\Entity\Team;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -29,6 +30,14 @@ class ProjectType extends AbstractType
                 'label' => 'Select Client',
                 'placeholder' => 'Choose a Client',
             ])
+            ->add('teams', EntityType::class, [
+                'class' => Team::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true, // for checkboxes
+                'label' => 'Assign Teams',
+                'required' => false,
+            ])
             ->add('active', CheckboxType::class, [
                 'label' => 'Active',
                 'required' => false,
@@ -42,3 +51,4 @@ class ProjectType extends AbstractType
         ]);
     }
 }
+
