@@ -3,15 +3,15 @@
 {% block title %}Client Management{% endblock %}
 
 {% block admin_content %}
-    <section class="relative bg-stone-50 py-10">
+    <section class="relative bg-background-section py-10">
         <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
             <!-- Header Section -->
             <div class="flex items-center justify-between mb-5">
-                <h1 class="text-2xl font-semibold text-gray-900">Client Management</h1>
+                <h1 class="text-xl font-bold text-text-headline">Client Management</h1>
 
                 <!-- Create New Client Button -->
-                <a href="{{ path('admin_project_new') }}"
-                   class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                <a href="{{ path('admin_client_new') }}"
+                   class="inline-flex justify-center py-2 px-4 shadow-sm text-base font-semibold rounded-md text-white bg-button-new hover:bg-button-hover-new focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight">
                     Create New Client
                 </a>
             </div>
@@ -19,37 +19,36 @@
             <!-- Client List -->
             <div class="space-y-6">
                 {% for client in clientDataArray %}
-                    <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="bg-background-main p-6 rounded-lg shadow-md">
                         <form action="#" method="post">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
                                 <!-- Client Name -->
                                 <div>
-                                    <label for="name_{{ client.id }}" class="block text-sm font-medium text-gray-700">Name</label>
+                                    <label for="name_{{ client.id }}" class="block text-sm text-text-standard ">Name</label>
                                     <input type="text" name="name" id="name_{{ client.id }}" value="{{ client.name }}"
-                                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-gray-900">
+                                           class="mt-1 block w-full px-4 py-2 border border rounded-md shadow-sm focus:outline-none text-text-standard">
                                 </div>
 
                                 <!-- Client Email -->
                                 <div>
-                                    <label for="email_{{ client.id }}" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <label for="email_{{ client.id }}" class="block text-sm text-text-standard ">Email</label>
                                     <input type="email" name="email" id="email_{{ client.id }}" value="{{ client.email }}"
-                                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-gray-900">
+                                           class="mt-1 block w-full px-4 py-2 border border rounded-md shadow-sm focus:outline-none text-text-paragraph">
                                 </div>
 
                                 <!-- Client Phone -->
                                 <div>
-                                    <label for="phone_{{ client.id }}" class="block text-sm font-medium text-gray-700">Phone</label>
+                                    <label for="phone_{{ client.id }}" class="block text-sm text-text-standard ">Phone</label>
                                     <input type="text" name="phone" id="phone_{{ client.id }}" value="{{ client.phone }}"
-                                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-gray-900">
+                                           class="mt-1 block w-full px-4 py-2 border border rounded-md shadow-sm focus:outline-none text-text-paragraph">
                                 </div>
 
-                                <!-- Projects (non-editable, styled in light gray) -->
+                                <!-- Projects (non-editable) -->
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Projects</label>
-                                    <ul class="mt-1 text-sm text-gray-800 bg-gray-100 rounded-md p-2">
+                                    <label class="block text-sm text-text-standard ">Projects</label>
+                                    <ul class="mt-1 text-sm text-text-standard bg-background-muted rounded-md p-2 border border">
                                         {% for project in client.projects %}
-                                            <li class="py-1">{{ project.name }}</li>
+                                            <li class="py-1"> <a href="#">{{ project.name }}</a></li> <!-- TODO add path -->
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -58,7 +57,7 @@
                             <div class="flex justify-end space-x-3 mt-4">
                                 <!-- Save Button -->
                                 <button type="submit"
-                                        class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                                        class="py-2 px-4 shadow-sm text-base font-semibold rounded-md text-white bg-button-update hover:bg-button-hover-update focus:outline-none">
                                     Save
                                 </button>
                             </div>

@@ -3,26 +3,21 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block body %}
-    <section class="flex">
+    <section class="flex bg-background-main font-sans">
         <!-- Sidebar -->
-        <aside class="w-1/4 bg-secondary p-6">
+        <aside class="w-1/6 p-6 bg-background-secondary">
             <nav class="space-y-4">
-                <a href="{{ path('admin_client') }}" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Clients</a>
-                <a href="{{ path('admin_project') }}" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Projects</a>
-                <a href="{{ path('admin_team') }}" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Teams</a>
-                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Todos</a>
-                <a href="#" class="block py-2 px-4 rounded-lg hover:bg-highlight text-text-headline">Users</a>
+                <a href="{{ path('admin_client') }}" class="block py-3 px-5 rounded-lg hover:bg-highlight text-text-headline text-lg font-bold">Clients</a>
+                <a href="{{ path('admin_project') }}" class="block py-3 px-5 rounded-lg hover:bg-highlight text-text-headline text-lg font-bold">Projects</a>
+                <a href="{{ path('admin_team') }}" class="block py-3 px-5 rounded-lg hover:bg-highlight text-text-headline text-lg font-bold">Teams</a>
+                <a href="#" class="block py-3 px-5 rounded-lg hover:bg-highlight text-text-headline text-lg font-bold">Todos</a>
+                <a href="#" class="block py-3 px-5 rounded-lg hover:bg-highlight text-text-headline text-lg font-bold">Users</a>
             </nav>
         </aside>
 
         <!-- Main Content Area -->
-        <main class="w-3/4 bg-background-main p-10">
-            <header class="mb-5">
-                <h1 class="text-3xl font-semibold text-text-headline">Admin Dashboard</h1>
-                <p class="text-base text-text-subheadline mt-1">Manage clients, projects, teams, and more.</p>
-            </header>
-
-            <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+        <main class="w-5/6 p-10">
+            <div class="space-y-4">
                 {% block admin_content %}
                     <!-- Content from individual admin pages will be injected here -->
                 {% endblock %}

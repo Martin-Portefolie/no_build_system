@@ -6,43 +6,43 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        background: {
+          main: '#fffffe',
+          secondary: '#eaddcf',
+          section: '#FAFAF9', // Custom bg-section color
+          muted: '#f3f4f6',
+        },
+        highlight: '#8c7851',
+        text: {
+          standard: '#020826',
+          higlighed: '#716040',
+          muted: '#6b7280',
+        },
+        border: {
+          default: '#D1D5DB',
+        },
+        button: {
+          new: '#4caf50',
+          update: '#2196f3',
+          delete: '#f44336',
+          hover: {
+            new: '#388e3c',
+            update: '#1976d2',
+            delete: '#d32f2f',
+          },
+        },
+      },
       fontFamily: {
         sans: ['Roboto', 'sans-serif'],
       },
       fontSize: {
-        'xs': '0.75rem',     // Extra small text, e.g., captions
-        'sm': '0.875rem',     // Small text, e.g., subheadings
-        'base': '1rem',       // Default body text size
-        'lg': '1.125rem',     // Slightly larger body or subtitle text
-        'xl': '1.25rem',      // Subheadings
-        '2xl': '1.5rem',      // Main headings
-        '3xl': '1.875rem',    // Larger main headings
-        '4xl': '2.25rem',     // Large display text
-        '5xl': '3rem',        // Extra-large display text
-      },
-      colors: {
-        background: {
-          main: '#fffffe',
-          card: '#eaddcf',
-        },
-        text: {
-          headline: '#020826',
-          subheadline: '#716040',
-          cardHeading: '#020826',
-          cardParagraph: '#716040',
-        },
-        icon: {
-          stroke: '#020826',
-        },
-        main: '#fffffe',
-        neutral: '#8a817c',
-        update: '#4a90e2',
-        new: '#4caf50',
-        delete: '#f44336',
-        secondary: '#eaddcf',
-        tertiary: '#f25042',
+        lg: '1.125rem',
+        base: '1rem',
+        xl: '1.25rem',
+        sm: '0.875rem',
       },
     },
   },
   plugins: [],
-};
+}
