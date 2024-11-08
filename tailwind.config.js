@@ -10,13 +10,14 @@ module.exports = {
         background: {
           main: '#fffffe',
           secondary: '#eaddcf',
+
           section: '#FAFAF9', // Custom bg-section color
           muted: '#f3f4f6',
         },
         highlight: '#8c7851',
         text: {
           standard: '#020826',
-          higlighed: '#716040',
+          highlight: '#716040',
           muted: '#6b7280',
         },
         border: {

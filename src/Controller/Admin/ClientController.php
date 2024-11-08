@@ -48,6 +48,7 @@ class ClientController extends AbstractController
         $form = $this->createForm(ClientType::class, $client);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($client);
             $this->entityManager->flush();

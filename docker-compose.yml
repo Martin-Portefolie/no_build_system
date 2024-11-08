@@ -48,7 +48,7 @@ services:
     depends_on:
       - phpfpm
     ports:
-      - '8180'
+      - '8180:8080'
     volumes:
       - ./.docker/templates:/etc/nginx/templates:ro
       - .:/app

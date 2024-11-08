@@ -16,9 +16,32 @@
         {% endblock %}
     </head>
     <body>
-{#    <form action="{{ path('app_logout') }}" method="post">#}
-{#        <button type="submit">Logout</button>#}
-{#    </form>#}
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <header class="bg-background-secondary  fixed top-0 w-full flex items-center justify-between">
+
+            <!-- Brand Area with fixed width (same as sidebar) -->
+            <div id="brand" class="flex items-center w-1/6  bg-background-muted">
+                <img src="{{ asset('icons/logo/logo.svg') }}" alt="Logo" class="h-8 w-auto">
+                <h1 class="text-lg font-semibold text-text-standard">Hest Time Controller</h1>
+            </div>
+
+            <!-- Navigation -->
+            <div class="flex-grow flex items-center justify-center space-x-6 ">
+                <nav class="space-x-4">
+                    <a href="#" class="text-lg font-medium hover:text-highlight">Register Time</a>
+                    <a href="#" class="text-lg font-medium hover:text-highlight">Calendar</a>
+                    <a href="#" class="text-lg font-medium hover:text-highlight">Kanban</a>
+                    <a href="#" class="text-lg font-medium hover:text-highlight">Test</a>
+                </nav>
+            </div>
+
+            <!-- User Greeting -->
+            <div>
+                <a href="#" class="text-lg font-medium text-text-muted hover:text-highlight">Hello</a>
+            </div>
+        </header>
+    {% endif %}
         {% block body %}
 
         {% endblock %}

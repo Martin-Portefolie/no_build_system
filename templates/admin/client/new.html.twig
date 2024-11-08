@@ -1,30 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/index.html.twig' %}
 
 {% block title %}Create New Client{% endblock %}
 
-{% block body %}
-    <section class="relative bg-background-main py-10">
+{% block admin_content %}
+    <section class="relative bg-background-section py-10">
         <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
-            <h1 class="text-3xl font-bold text-text-headline mb-8">Create New Client</h1>
+            <h1 class="text-xl  text-text-headline mb-8">Create New Client</h1>
 
             <div class="bg-card-background p-6 rounded-lg shadow-md">
                 {{ form_start(form) }}
 
                 <!-- Client Name -->
                 <div class="mb-4">
-                    <label class="block text-lg font-semibold text-text-headline">{{ form_label(form.name) }}</label>
+                    <label class="block text-lg  text-text-headline">{{ form_label(form.name) }}</label>
                     {{ form_widget(form.name, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
                 </div>
 
                 <!-- Contact Email -->
                 <div class="mb-4">
-                    <label class="block text-lg font-semibold text-text-headline">{{ form_label(form.contactEmail) }}</label>
+                    <label class="block text-lg  text-text-headline">{{ form_label(form.contactEmail) }}</label>
                     {{ form_widget(form.contactEmail, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
                 </div>
 
                 <!-- Contact Phone -->
                 <div class="mb-4">
-                    <label class="block text-lg font-semibold text-text-headline">{{ form_label(form.contactPhone) }}</label>
+                    <label class="block text-lg  text-text-headline">{{ form_label(form.contactPhone) }}</label>
                     {{ form_widget(form.contactPhone, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
                 </div>
 
