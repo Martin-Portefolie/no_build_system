@@ -18,16 +18,16 @@
     <body>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <header class="bg-background-secondary  fixed top-0 w-full flex items-center justify-between">
+        <header class="bg-background-secondary   top-0 w-full flex items-center justify-between  h-20">
 
             <!-- Brand Area with fixed width (same as sidebar) -->
-            <div id="brand" class="flex items-center w-1/6  bg-background-muted">
-                <img src="{{ asset('icons/logo/logo.svg') }}" alt="Logo" class="h-8 w-auto">
+            <div id="brand" class="flex items-center w-1/6">
+                <img src="{{ asset('icons/logo/logo.svg') }}" alt="Logo" class="h-20 w-auto">
                 <h1 class="text-lg font-semibold text-text-standard">Hest Time Controller</h1>
             </div>
 
             <!-- Navigation -->
-            <div class="flex-grow flex items-center justify-center space-x-6 ">
+            <div class="flex-grow flex items-center justify-center  shadow-custom-1 h-full">
                 <nav class="space-x-4">
                     <a href="#" class="text-lg font-medium hover:text-highlight">Register Time</a>
                     <a href="#" class="text-lg font-medium hover:text-highlight">Calendar</a>
@@ -37,7 +37,7 @@
             </div>
 
             <!-- User Greeting -->
-            <div>
+            <div class="h-full shadow-custom-1 flex items-center justify-center mr-2">
                 <a href="#" class="text-lg font-medium text-text-muted hover:text-highlight">Hello</a>
             </div>
         </header>

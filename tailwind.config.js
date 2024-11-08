@@ -10,7 +10,6 @@ module.exports = {
         background: {
           main: '#fffffe',
           secondary: '#eaddcf',
-
           section: '#FAFAF9', // Custom bg-section color
           muted: '#f3f4f6',
         },
@@ -43,7 +42,11 @@ module.exports = {
         xl: '1.25rem',
         sm: '0.875rem',
       },
+      boxShadow: {
+        'custom-1': '0px 2px 0px rgba(0, 0, 0, 0.1)', // Adjust the rgba value as needed
+        'custom-2': '2px 0px 0px rgba(0, 0, 0, 0.1)', // Adjust the rgba value as needed
+      },
     },
   },
   plugins: [],
-}
+};
