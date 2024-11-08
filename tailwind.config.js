@@ -8,9 +8,10 @@ module.exports = {
     extend: {
       colors: {
         background: {
-          main: '#fffffe',
-          secondary: '#eaddcf',
-          section: '#FAFAF9', // Custom bg-section color
+          main: '#F5F5F5',
+          secondary: '#F7F7F7',
+          section: '#FAFAF9',
+          test: '#FAFAFA',
           muted: '#f3f4f6',
         },
         highlight: '#8c7851',
