@@ -1,20 +1,81 @@
-{% extends '../../base.html.twig' %}
+{% extends 'admin/index.html.twig' %}
 
 {% block title %}Hello UsersController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block admin_content %}
+    <section class="relative bg-background-section py-10">
+        <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
+            <!-- Header Section -->
+            <div class="flex items-center justify-between mb-5">
+                <h1 class=" text-lg text-text-standard">User Management</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                <!-- Create New Client Button -->
+                <a href="{{ path('admin_client_new') }}"
+                   class="inline-flex justify-center py-2 px-4 shadow-sm text-base  rounded-md text-white bg-button-new hover:bg-button-hover-new focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight">
+                    Create New User
+                </a>
+            </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/app/src/Controller/UsersController.php</code></li>
-        <li>Your template at <code>/app/templates/users/index.html.twig</code></li>
-    </ul>
-</div>
+            <!-- Client List -->
+            <div class="space-y-6">
+                {% for user in users %}
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <form action="#" method="post">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- User Name -->
+                                <div>
+                                    <label for="name_{{ user.id }}" class="block text-sm text-text-standard ">Name</label>
+                                    <input type="text" name="name" id="name_{{ user.id }}" value="{{ user.name }}"
+                                           class="mt-1 block w-full px-4 py-2 border border rounded-md shadow-sm focus:outline-none text-text-standard">
+                                </div>
+
+                                <!-- User Email -->
+                                <div>
+                                    <label for="email_{{ user.id }}" class="block text-sm text-text-standard ">Email</label>
+                                    <input type="email" name="email" id="email_{{ user.id }}" value="{{ user.email }}"
+                                           class="mt-1 block w-full px-4 py-2 border border rounded-md shadow-sm focus:outline-none text-text-paragraph">
+                                </div>
+
+                                <!-- User password -->
+                                <div>
+                                    <label for="email_{{ user.id }}" class="block text-sm text-text-standard ">Password</label>
+                                    <input type="password" name="password" id="password_{{ user.id }}" value="{{ user.password }}"
+                                           class="mt-1 block w-full px-4 py-2 border border rounded-md shadow-sm focus:outline-none text-text-paragraph">
+                                </div>
+
+
+                                <div>
+
+                                    <fieldset>
+                                        <legend for="role_{{ user.id }}" class="block text-sm font-medium text-gray-700"> Vælg Role</legend>
+                                        <div>
+                                        <input type="checkbox" name="role_user" id="role_user_{{ user.id }}"
+                                               {% if user.role|length > 0 and user.role.0 %}checked{% endif %}
+                                               class="mt-1 block text-gray-900 focus:ring-indigo-500 h-4 w-4 border-gray-300 rounded">
+                                            <label for="user">User</label>
+                                        </div>
+                                        <div>
+                                        <input type="checkbox" name="role_admin" id="role_admin_{{ user.id }}"
+                                               {% if user.role|length > 1 and user.role.1 %}checked{% endif %}
+                                               class="mt-1 block text-gray-900 focus:ring-indigo-500 h-4 w-4 border-gray-300 rounded">
+                                            <label for="admin">Admin</label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+
+                            <div class="flex justify-end space-x-3 mt-4">
+                                <!-- Save Button -->
+                                <button type="submit"
+                                        class="py-2 px-4 shadow-sm text-base  rounded-md text-white bg-button-update hover:bg-button-hover-update focus:outline-none">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

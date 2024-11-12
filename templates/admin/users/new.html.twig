@@ -1,0 +1,49 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}Create New Client{% endblock %}
+
+{% block admin_content %}
+    <section class="relative bg-background-section py-10">
+        <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
+            <h1 class="text-xl  text-text-headline mb-8">Create New User</h1>
+
+            <div class="bg-card-background p-6 rounded-lg shadow-md">
+                {{ form_start(form) }}
+
+                <!-- User Name -->
+                <div class="mb-4">
+                    <label class="block text-lg  text-text-headline">{{ form_label(form.username) }}</label>
+                    {{ form_widget(form.username, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
+                </div>
+
+                <!-- User Email -->
+                <div class="mb-4">
+                    <label class="block text-lg  text-text-headline">{{ form_label(form.email) }}</label>
+                    {{ form_widget(form.email, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
+                </div>
+
+                <!-- User Password -->
+                <div class="mb-4">
+                    <label class="block text-lg  text-text-headline">{{ form_label(form.password) }}</label>
+                    {{ form_widget(form.password, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
+                </div>
+
+                <!-- Contact Phone -->
+                <div class="mb-4">
+                    <label class="block text-lg  text-text-headline">{{ form_label(form.contactPhone) }}</label>
+                    {{ form_widget(form.contactPhone, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-end mt-6">
+                    <button type="submit"
+                            class="inline-flex justify-center py-3 px-6 border eborder-transparent shadow-sm text-lg font-medium rounded-md text-white bg-new hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight">
+                        Create user
+                    </button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
