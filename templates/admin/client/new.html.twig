@@ -1,38 +1,60 @@
 {% extends 'admin/index.html.twig' %}
 
-{% block title %}Create New Client{% endblock %}
+{% block title %}Create New User{% endblock %}
 
 {% block admin_content %}
     <section class="relative bg-background-section py-10">
         <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
-            <h1 class="text-xl  text-text-headline mb-8">Create New Client</h1>
+            <h1 class="text-lg text-text-standard mb-8">Create New User</h1>
 
-            <div class="bg-card-background p-6 rounded-lg shadow-md">
+            <div class="bg-white p-6 rounded-lg shadow-md">
                 {{ form_start(form) }}
 
-                <!-- Client Name -->
+                <!-- Username -->
                 <div class="mb-4">
-                    <label class="block text-lg  text-text-headline">{{ form_label(form.name) }}</label>
-                    {{ form_widget(form.name, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
+                    <label class="block text-sm text-text-standard">{{ form_label(form.username, 'Username') }}</label>
+                    {{ form_widget(form.username, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-md shadow-sm'}}) }}
                 </div>
 
-                <!-- Contact Email -->
+                <!-- Email -->
                 <div class="mb-4">
-                    <label class="block text-lg  text-text-headline">{{ form_label(form.contactEmail) }}</label>
-                    {{ form_widget(form.contactEmail, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
+                    <label class="block text-sm text-text-standard">{{ form_label(form.email, 'Email') }}</label>
+                    {{ form_widget(form.email, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-md shadow-sm'}}) }}
                 </div>
 
-                <!-- Contact Phone -->
+                <!-- Password -->
                 <div class="mb-4">
-                    <label class="block text-lg  text-text-headline">{{ form_label(form.contactPhone) }}</label>
-                    {{ form_widget(form.contactPhone, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-text-main'}}) }}
+                    <label class="block text-sm text-text-standard">{{ form_label(form.password, 'Password') }}</label>
+                    {{ form_widget(form.password, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-md shadow-sm'}}) }}
+                </div>
+
+                <!-- Roles -->
+                <div class="mb-4">
+                    <label class="block text-sm text-text-standard">{{ form_label(form.roles, 'Roles') }}</label>
+                    <div class="space-y-2 mt-1">
+                        <div>
+                            <input type="checkbox" name="roles[]" value="ROLE_USER" id="role_user" checked
+                                   class="mr-2 text-gray-900 focus:ring-indigo-500 h-4 w-4 border-gray-300 rounded">
+                            <label for="role_user" class="text-sm text-text-standard">User</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="roles[]" value="ROLE_ADMIN" id="role_admin"
+                                   class="mr-2 text-gray-900 focus:ring-indigo-500 h-4 w-4 border-gray-300 rounded">
+                            <label for="role_admin" class="text-sm text-text-standard">Admin</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Teams (if applicable) -->
+                <div class="mb-4">
+                    <label class="block text-sm text-text-standard">{{ form_label(form.teams, 'Teams') }}</label>
+                    {{ form_widget(form.teams, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-md shadow-sm'}}) }}
                 </div>
 
                 <!-- Submit Button -->
                 <div class="flex justify-end mt-6">
-                    <button type="submit"
-                            class="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-lg font-medium rounded-md text-white bg-new hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight">
-                        Create Client
+                    <button type="submit" class="py-2 px-4 shadow-sm text-base rounded-md text-white bg-button-new hover:bg-button-hover-new focus:outline-none">
+                        Create User
                     </button>
                 </div>
 
@@ -41,3 +63,4 @@
         </div>
     </section>
 {% endblock %}
+
