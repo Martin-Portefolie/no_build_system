@@ -17,7 +17,7 @@
     </head>
     <body>
 
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
         <header class="bg-background-secondary   top-0 w-full flex items-center justify-between  h-20">
 
             <!-- Brand Area with fixed width (same as sidebar) -->
@@ -41,7 +41,8 @@
                 <a href="#" class="text-lg font-medium text-text-muted hover:text-highlight">Hello</a>
             </div>
         </header>
-    {% endif %}
+
+
         {% block body %}
 
         {% endblock %}

@@ -1,0 +1,89 @@
+
+    <section class="relative bg-stone-50 py-10">
+        <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
+            <!-- Header Section with Navigation Buttons -->
+            <div class="flex flex-col md:flex-row items-center justify-between mb-5">
+                <div class="flex items-center gap-4">
+                    <h6 class="text-xl leading-8 font-semibold text-gray-900">Week {{ week }}, {{ year }}</h6>
+                </div>
+                <!-- Week Navigation -->
+                <div class="flex items-center gap-2 rounded-lg bg-gray-100 p-1">
+                    <a href="/profile/time-register/{{ week == 1 ? 53 : week - 1 }}-{{ week == 1 ? year - 1 : year }}"
+                       data-week="{{ week == 1 ? 53 : week - 1 }}"
+                       data-year="{{ week == 1 ? year - 1 : year }}"
+                       data-controller="weeks"
+                       data-action="click->weeks#navigate"
+                       class="rounded-lg py-2 px-4 text-sm font-medium text-gray-500 hover:bg-white hover:text-indigo-600">
+                        Previous Week
+                    </a>
+
+                    <a href="/profile/time-register/{{ week == 53 ? 1 : week + 1 }}-{{ week == 53 ? year + 1 : year }}"
+                       data-week="{{ week == 53 ? 1 : week + 1 }}"
+                       data-year="{{ week == 53 ? year + 1 : year }}"
+                       data-controller="weeks"
+                       data-action="click->weeks#navigate"
+                       class="rounded-lg py-2 px-4 text-sm font-medium text-gray-500 hover:bg-white hover:text-indigo-600">
+                        Next Week
+                    </a>
+
+
+                </div>
+            </div>
+
+            <!-- Calendar Grid -->
+            <div class="relative">
+                <div class="grid grid-cols-7 border-t border-gray-200">
+                    <!-- Headers for Each Day -->
+                    {% for day in weeklyData %}
+                        <div class="p-3.5 text-center text-sm font-medium text-gray-900 bg-gray-100">{{ day.date|date('l, M j') }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Day Blocks for Events -->
+                <div class="grid grid-cols-7 w-full overflow-x-auto">
+                    {% for day in weeklyData %}
+                        <div class=" min-h-[8rem] p-3.5 border-t border-r border-gray-200 transition-all hover:bg-stone-100">
+                            <turbo-frame id="new_event_{{ day.date|date('Y-m-d') }}">
+                                <a href="{{ path('test_week_new', { 'date': day.date|date('Y-m-d') } ) }}" class="text-xs text-indigo-500 hover:underline" data-turbo="false">
+                                    + Add Event
+                                </a>
+                            </turbo-frame>
+                            <!-- Event Display -->
+                            {% if day.events is not empty %}
+                                <ul class="space-y-2">
+                                    {% for event in day.events %}
+                                        <li class="bg-white p-2 rounded-md shadow-sm hover:bg-gray-50">
+                                            <!-- Event Title -->
+                                            <p class=" text-gray-800 text-sm mb-2 break-words">
+                                                {{ event.title }}
+                                            </p>
+
+                                            <!-- Action Icons for Edit and Delete, positioned under the title -->
+                                            <div class="flex space-x-3 items-center justify-end mt-1">
+                                                <!-- Edit Icon -->
+                                                <a href="{{ path('test_event_edit', { id: event.id }) }}" class="text-gray-800 hover:text-blue-600" data-turbo="false" title="Edit">
+                                                    {{ ux_icon('ic:baseline-edit') }}
+                                                </a>
+
+                                                <!-- Delete Icon with Confirmation -->
+                                                <form action="{{ path('test_event_delete', { id: event.id }) }}" method="post" class="inline">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+                                                    <button type="submit" class="text-gray-800 hover:text-red-600" onclick="return confirm('Delete this event?');" title="Delete">
+                                                        {{ ux_icon('ic:baseline-delete') }}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <!-- No Events Placeholder Text -->
+                                <p class="flex-1  text-gray-800 text-sm">No data</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </section>

@@ -1,39 +1,30 @@
-import { Controller } from '@hotwired/stimulus';
+import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
     navigate(event) {
-        event.preventDefault(); // Prevent full page reload
+        event.preventDefault(); // Prevent default link behavior
 
-        let weekNumber = parseInt(event.currentTarget.dataset.week); // Get the target week number
-        let year = parseInt(event.currentTarget.dataset.year); // Get the current year
+        // Get the link URL
+        const url = event.currentTarget.getAttribute("href");
 
-        // Handle week boundaries and year transitions
-        if (weekNumber < 1) {
-            weekNumber = 53; // Move to week 53 of the previous year
-            year--;
-        } else if (weekNumber > 53) {
-            weekNumber = 1; // Move to week 1 of the next year
-            year++;
-        }
+        // Update the Turbo Frame content without reloading the page
+        this.loadFrame(url);
 
-        // Update the URL dynamically without reloading the page
-        this.updateUrl(weekNumber, year);
-        this.fetchWeekData(weekNumber, year);
+        // Update the URL in the address bar
+        history.pushState({}, '', url);
     }
 
-    // Update the URL with week and year without reloading the page
-    updateUrl(weekNumber, year) {
-        const url = `/weeks/${weekNumber}-${year}`;
-        history.pushState({ path: url }, '', url);
-    }
-
-    // Fetch the data for the specific week and year using an AJAX request
-    fetchWeekData(weekNumber, year) {
-        fetch(`/weeks/${weekNumber}-${year}`)
-            .then(response => response.text()) // Fetch the HTML content
+    loadFrame(url) {
+        // Load the content into the Turbo Frame
+        fetch(url, {
+            headers: {
+                "Turbo-Frame": "week-frame" // Ensure only the Turbo Frame content is returned
+            }
+        })
+            .then(response => response.text())
             .then(html => {
-                document.querySelector('#week-frame').innerHTML = html; // Update the content of the turbo frame
+                document.querySelector('#week-frame').innerHTML = html;
             })
-            .catch(error => console.error('Error fetching week data:', error));
+            .catch(error => console.error("Error loading week data:", error));
     }
 }
