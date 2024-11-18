@@ -49,30 +49,31 @@
                                 </a>
                             </turbo-frame>
                             <!-- Event Display -->
-                            {% if day.events is not empty %}
+                            {% if day.todo is not empty %}
                                 <ul class="space-y-2">
-                                    {% for event in day.events %}
+                                    {% for todo in day.todo %}
+
                                         <li class="bg-white p-2 rounded-md shadow-sm hover:bg-gray-50">
                                             <!-- Event Title -->
                                             <p class=" text-gray-800 text-sm mb-2 break-words">
-                                                {{ event.title }}
+                                                {{ todo.title }}
                                             </p>
 
-                                            <!-- Action Icons for Edit and Delete, positioned under the title -->
-                                            <div class="flex space-x-3 items-center justify-end mt-1">
-                                                <!-- Edit Icon -->
-                                                <a href="{{ path('test_event_edit', { id: event.id }) }}" class="text-gray-800 hover:text-blue-600" data-turbo="false" title="Edit">
-                                                    {{ ux_icon('ic:baseline-edit') }}
-                                                </a>
+{#                                            <!-- Action Icons for Edit and Delete, positioned under the title -->#}
+{#                                            <div class="flex space-x-3 items-center justify-end mt-1">#}
+{#                                                <!-- Edit Icon -->#}
+{#                                                <a href="{{ path('test_event_edit', { id: event.id }) }}" class="text-gray-800 hover:text-blue-600" data-turbo="false" title="Edit">#}
+{#                                                    {{ ux_icon('ic:baseline-edit') }}#}
+{#                                                </a>#}
 
-                                                <!-- Delete Icon with Confirmation -->
-                                                <form action="{{ path('test_event_delete', { id: event.id }) }}" method="post" class="inline">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
-                                                    <button type="submit" class="text-gray-800 hover:text-red-600" onclick="return confirm('Delete this event?');" title="Delete">
-                                                        {{ ux_icon('ic:baseline-delete') }}
-                                                    </button>
-                                                </form>
-                                            </div>
+{#                                                <!-- Delete Icon with Confirmation -->#}
+{#                                                <form action="{{ path('test_event_delete', { id: event.id }) }}" method="post" class="inline">#}
+{#                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">#}
+{#                                                    <button type="submit" class="text-gray-800 hover:text-red-600" onclick="return confirm('Delete this event?');" title="Delete">#}
+{#                                                        {{ ux_icon('ic:baseline-delete') }}#}
+{#                                                    </button>#}
+{#                                                </form>#}
+{#                                            </div>#}
                                         </li>
                                     {% endfor %}
                                 </ul>

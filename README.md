@@ -32,14 +32,14 @@ open http://horseshoes.local.itkdev.dk/
 docker compose exec phpfpm bin/console doctrine:migration:migrate
 ## to initiate 
 
-docker compose exec phpfpm bin/console doctrine:schema:drop --full-database --force; 
-docker compose exec phpfpm bin/console doctrine:migration:migrate
-docker compose exec phpfpm bin/console create-user
-docker compose exec phpfpm bin/console create-client
-docker compose exec phpfpm bin/console create-project
-docker compose exec phpfpm bin/console create-team "Pegasus Team" a@a.com b@b.com --projectName="Project Pegasus"
-docker compose exec phpfpm bin/console create-todo 1 "Storyboard Development"  "2024-10-31" "2024-11-02"
-docker compose exec phpfpm bin/console create-timelog "admin" 1 2 30 "2024-10-31" "Completed the storyboard initial draft"
+    docker compose exec phpfpm bin/console doctrine:schema:drop --full-database --force; 
+    docker compose exec phpfpm bin/console doctrine:migration:migrate
+    docker compose exec phpfpm bin/console create-user
+    docker compose exec phpfpm bin/console create-client
+    docker compose exec phpfpm bin/console create-project
+    docker compose exec phpfpm bin/console create-team "Pegasus Team" a@a.com b@b.com --projectName="Project Pegasus"
+    docker compose exec phpfpm bin/console create-todo 1 "Storyboard Development"  "2024-11-20" "2024-11-21"
+    docker compose exec phpfpm bin/console create-timelog "admin" 1 2 30 "2024-11-22" "Completed the storyboard initial draft"
 
 ```
 

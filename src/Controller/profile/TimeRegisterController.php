@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller\profile;
+use App\Entity\Timelog;
 use App\Entity\Todo;
 use DateTime;
 use DateTimeZone;
@@ -67,9 +68,11 @@ class TimeRegisterController extends AbstractController
         }
 
         // Fetch all todos (this should eventually be filtered by week)
+
+// Fetch all todos
         $todoData = $this->entityManager->getRepository(Todo::class)->findAll();
 
-        // Loop through events and match them to their days
+// Loop through todos and their associated timelogs, and match them to their days
         foreach ($todoData as $todo) {
             $todoStart = $todo->getDateStart();
             $todoEnd = $todo->getDateEnd();
@@ -80,21 +83,80 @@ class TimeRegisterController extends AbstractController
             }
 
             foreach ($data as &$day) {
+                // Define day start and end times for comparisons
                 $dayStart = new DateTime($day['date']->format('Y-m-d'));
                 $dayStart->setTime(0, 0, 0, 0);
                 $dayEnd = new DateTime($day['date']->format('Y-m-d'));
                 $dayEnd->setTime(23, 59, 59, 999);
 
+                // Initialize `todo` and `timelog` keys if they do not exist
+                if (!isset($day['todo'])) {
+                    $day['todo'] = [];
+                }
+                if (!isset($day['timelog'])) {
+                    $day['timelog'] = [];
+                }
+
+                // Add todo entries if they fall within this day
                 if ($todoStart <= $dayEnd && $todoEnd >= $dayStart) {
-                    $day['events'][] = [
+                    $day['todo'][] = [
                         'id' => $todo->getId(),
                         'title' => $todo->getName(),
                         'start' => $todoStart->format('Y-m-d H:i:s'),
                         'end' => $todoEnd->format('Y-m-d H:i:s'),
                     ];
                 }
+
+                // Add timelog entries if they fall within this day
+                foreach ($todo->getTimelogs() as $timelog) {
+                    $timelogDate = $timelog->getDate();
+                    if ($timelogDate >= $dayStart && $timelogDate <= $dayEnd) {
+                        $username = $timelog->getUser() ? $timelog->getUser()->getUsername() : 'Unknown User';
+                        $day['timelog'][] = [
+                            'id' => $timelog->getId(),
+                            'todo_id' => $todo->getId(),
+                            'description' => $timelog->getDescription(),
+                            'hours' => $timelog->getHours(),
+                            'minutes' => $timelog->getMinutes(),
+                            'username' => $username,
+                            'date' => $timelogDate->format('Y-m-d H:i:s'),
+                        ];
+                    }
+                }
             }
+
         }
+
+
+
+
+        // Loop through events and match them to their days
+//
+//        foreach ($todoData as $todo ) {
+//            $todoStart = $todo->getDateStart();
+//            $todoEnd = $todo->getDateEnd();
+//
+//            // Skip invalid events
+//            if ($todoEnd < $todoStart || trim($todo->getName()) === "") {
+//                continue;
+//            }
+//
+//            foreach ($data as &$day) {
+//                $dayStart = new DateTime($day['date']->format('Y-m-d'));
+//                $dayStart->setTime(0, 0, 0, 0);
+//                $dayEnd = new DateTime($day['date']->format('Y-m-d'));
+//                $dayEnd->setTime(23, 59, 59, 999);
+//
+//                if ($todoStart <= $dayEnd && $todoEnd >= $dayStart) {
+//                    $day['events'][] = [
+//                        'id' => $todo->getId(),
+//                        'title' => $todo->getName(),
+//                        'start' => $todoStart->format('Y-m-d H:i:s'),
+//                        'end' => $todoEnd->format('Y-m-d H:i:s'),
+//                    ];
+//                }
+//            }
+//        }
 
         if ($isTurboFrameRequest) {
             return $this->render('profile/time_register/_week_content.html.twig', [

@@ -1,0 +1,86 @@
+{% extends 'profile/index.html.twig' %}
+{% block title %}Todo Handler - Week {{ week }}{% endblock %}
+
+{% block profile_content %}
+ <section class="relative bg-white py-10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+   <!-- Week Navigation -->
+   <div class="flex justify-between items-center mb-6">
+    <div class="flex items-center gap-2">
+     <a href="{{ path('app_todo_handler', { week: week == 1 ? 53 : week - 1, year: week == 1 ? year - 1 : year }) }}"
+        class="py-2 px-4 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200">← Previous week</a>
+     <a href="{{ path('app_todo_handler') }}" class="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Go to today</a>
+     <a href="{{ path('app_todo_handler', { week: week == 53 ? 1 : week + 1, year: week == 53 ? year + 1 : year }) }}"
+        class="py-2 px-4 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200">Next week →</a>
+    </div>
+   </div>
+
+   <!-- Table -->
+   <div class="overflow-x-auto border rounded-lg shadow-sm">
+    <table class="min-w-full bg-white">
+     <thead class="bg-gray-100 text-gray-700">
+     <tr>
+      <th class="py-3 px-4 text-left text-sm font-medium">Todo</th>
+      {% for day in weeklyData %}
+       <th class="py-3 px-4 text-center text-sm font-medium">
+        {{ day.date|date('d/m') }}<br>{{ day.date|date('D') }}
+       </th>
+      {% endfor %}
+      <th class="py-3 px-4 text-center text-sm font-medium">Total</th>
+     </tr>
+     </thead>
+     <tbody>
+     {% for todo in todos %}
+      {% set row_total = 0 %}
+      <tr>
+       <td class="py-3 px-4 border-b text-sm">
+        <a href="#" class="text-blue-600 hover:underline">{{ todo.name }}</a>
+       </td>
+
+       {% for day in weeklyData %}
+        {% set day_total = 0 %}
+        <td class="py-3 px-4 border-b text-center text-sm">
+         {% set day_total = 0 %}
+         {% for timelog in day.timelog %}
+          {% if timelog.todo_id == todo.id %}
+           {% set day_total = day_total + timelog.hours * 60 + timelog.minutes %}
+          {% endif %}
+         {% endfor %}
+         {% set row_total = row_total + day_total %}
+
+         <!-- Display Total Time or Input Field -->
+         {% if day_total > 0 %}
+          {{ (day_total / 60)|round(0, 'floor') }}h {{ day_total % 60 }}m
+         {% else %}
+          <label>
+           <input type="time" name="time_{{ day.date|date('Ymd') }}_{{ todo.id }}" class="block mx-auto" />
+          </label>
+         {% endif %}
+        </td>
+
+       {% endfor %}
+       <td class="py-3 px-4 border-b text-center text-sm font-bold">
+        {{ (row_total / 60)|round(0, 'floor') }}h {{ row_total % 60 }}m
+       </td>
+      </tr>
+     {% endfor %}
+     </tbody>
+     <!-- Weekly Total -->
+     <tfoot>
+     <tr class="bg-gray-100">
+      <td class="py-3 px-4 font-bold">Total</td>
+      {% for day in weeklyData %}
+       <td class="py-3 px-4 text-center font-bold">
+        {{ (day.dayTotal / 60)|round(0, 'floor') }}h {{ day.dayTotal % 60 }}m
+       </td>
+      {% endfor %}
+      <td class="py-3 px-4 text-center font-bold">
+       {{ (weeklyTotal / 60)|round(0, 'floor') }}h {{ weeklyTotal % 60 }}m
+      </td>
+     </tr>
+     </tfoot>
+    </table>
+   </div>
+  </div>
+ </section>
+{% endblock %}

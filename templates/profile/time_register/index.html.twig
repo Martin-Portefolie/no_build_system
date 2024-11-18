@@ -5,6 +5,8 @@
 
 {% block profile_content %}
 
+    {{ dump(weeklyData) }}
+
     <!-- Turbo Frame for partial page updates -->
     <turbo-frame id="week-frame" >
             {% include 'profile/time_register/_week_content.html.twig' %}
