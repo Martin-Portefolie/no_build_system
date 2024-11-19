@@ -13,6 +13,7 @@ module.exports = {
           section: '#FAFAF9',
           test: '#FAFAFA',
           muted: '#f3f4f6',
+          weekend: '#FF999C'
         },
         highlight: '#8c7851',
         text: {

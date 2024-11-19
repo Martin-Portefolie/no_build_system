@@ -19,7 +19,7 @@ docker compose exec phpfpm bin/console tailwind:build --watch --poll
 
 ```
 ####  open site
-[Open horse-shoes-site ](http://horseshoes.local.itkdev.dk/)
+[Open horse-calender-site ](http://horseshoes.local.itkdev.dk/)
 ```shell
 # 5 (optional) mac terminal command
 open http://horseshoes.local.itkdev.dk/
@@ -40,6 +40,7 @@ docker compose exec phpfpm bin/console doctrine:migration:migrate
     docker compose exec phpfpm bin/console create-team "Pegasus Team" a@a.com b@b.com --projectName="Project Pegasus"
     docker compose exec phpfpm bin/console create-todo 1 "Storyboard Development"  "2024-11-20" "2024-11-21"
     docker compose exec phpfpm bin/console create-timelog "admin" 1 2 30 "2024-11-22" "Completed the storyboard initial draft"
+    docker compose exec phpfpm bin/console create-timelog "admin" 1 1 30 "2024-11-20" "Completed the storyboard initial draft 2"
 
 ```
 
