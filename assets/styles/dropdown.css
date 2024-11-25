@@ -1,0 +1,46 @@
+/* Use Tailwind classes to style your dropdown components */
+
+/* Dropdown Container */
+.dropdown {
+    @apply relative w-full;
+}
+
+/* Selected Item */
+.dropdown-select {
+    @apply bg-gray-50 border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 cursor-pointer shadow-sm hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    @apply absolute top-full left-0 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10 hidden;
+}
+
+/* Dropdown Menu (Visible State) */
+.dropdown-menu.show {
+    @apply block;
+}
+
+/* Search Input */
+.dropdown-menu-search {
+    @apply w-full px-3 py-2 border-b border-gray-200 text-sm text-gray-700 focus:ring-1 focus:ring-blue-500 focus:outline-none;
+}
+
+/* Items Wrapper */
+.dropdown-menu-inner {
+    @apply max-h-60 overflow-y-auto;
+}
+
+/* Individual Dropdown Items */
+.dropdown-menu-item {
+    @apply px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900;
+}
+
+/* Active/Selected Item */
+.dropdown-menu-item.selected {
+    @apply bg-blue-100 text-blue-600;
+}
+
+/* Hidden Dropdown */
+.hidden {
+    @apply hidden;
+}
