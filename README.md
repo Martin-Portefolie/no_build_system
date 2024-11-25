@@ -22,7 +22,7 @@ docker compose exec phpfpm bin/console tailwind:build --watch --poll
 [Open horse-calender-site ](http://horseshoes.local.itkdev.dk/)
 ```shell
 # 5 (optional) mac terminal command
-open http://horseshoes.local.itkdev.dk/
+open http://Hest-Time-Controller.local.itkdev.dk/
 ```
 
 ### helpful commands
