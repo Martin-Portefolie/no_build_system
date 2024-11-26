@@ -66,6 +66,7 @@
                                         {% set row_total = row_total + day_total %}
 
                                         <!-- Display Input Field with Auto-Save Logic -->
+                                        <div data-controller="timelog-autosave">
                                         <label>
                                             <input
                                                     type="time"
@@ -76,6 +77,7 @@
                                                     data-date="{{ day.date|date('Y-m-d') }}"
                                             />
                                         </label>
+                                        </div>
 
                                     </td>
                                 {% endfor %}

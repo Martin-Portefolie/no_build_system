@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Timelog;
 use App\Entity\Todo;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,7 +20,7 @@ class TestTodoController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/profile/{week?}-{year?}', name: 'app_todo')]
+    #[Route('/profile/{week<\d+>?}/{year<\d+>?}', name: 'app_todo', methods: ['GET'])]
     public function index(Request $request, int $week = null, int $year = null): Response
     {
         $timezone = new \DateTimeZone($_ENV['APP_TIMEZONE'] ?? 'Europe/Copenhagen');
@@ -112,6 +114,51 @@ class TestTodoController extends AbstractController
             'weeklyTotal' => $weeklyTotal,
             'todos' => $todos,
             'weeklyDates' => $weeklyDates,
+        ]);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    #[Route('/profile/save-time', name: 'app_save_time', methods: ['POST'])]
+    public function saveTime(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $todoId = $data['todoId'] ?? null;
+        $date = $data['date'] ?? null;
+        $hours = $data['hours'] ?? 0;
+        $minutes = $data['minutes'] ?? 0;
+
+        if (!$todoId || !$date) {
+            return new JsonResponse(['error' => 'Missing parameters.'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $todo = $this->entityManager->getRepository(Todo::class)->find($todoId);
+        if (!$todo) {
+            return new JsonResponse(['error' => 'Todo not found.'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Find or create a timelog for the given date
+        $timelog = $todo->getTimelogs()->filter(function ($log) use ($date) {
+            return $log->getDate()->format('Y-m-d') === $date;
+        })->first();
+
+        if (!$timelog) {
+            $timelog = new Timelog();
+            $timelog->setTodo($todo);
+            $timelog->setDate(new \DateTime($date));
+            $this->entityManager->persist($timelog);
+        }
+
+        $timelog->setHoursAndMinutes((int) $hours, (int) $minutes);
+        $this->entityManager->flush();
+
+        return new JsonResponse([
+            'status' => 'success',
+            'todoId' => $todoId,
+            'date' => $date,
+            'hours' => $timelog->getHours(),
+            'minutes' => $timelog->getMinutes(),
         ]);
     }
 }

@@ -22,7 +22,7 @@ export default class extends Controller {
         };
 
         try {
-            const response = await fetch("/profile/todo-handler/save-time", {
+            const response = await fetch("/profile/save-time", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),

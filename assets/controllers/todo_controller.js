@@ -4,7 +4,6 @@ export default class extends Controller {
     static targets = ["select"];
 
     connect() {
-        console.log("todo controller connected");
         this.element.addEventListener('change', this.addTodoToTable.bind(this));
     }
 
@@ -53,6 +52,9 @@ export default class extends Controller {
             const timeCell = document.createElement("td");
             timeCell.className = "py-3 px-4 border-b text-center text-sm bg-green-50"; // Updated to green
 
+            const controllerDiv = document.createElement("div");
+            controllerDiv.dataset.controller = "timelog-autosave";
+
             const labelForInput = document.createElement("label");
 
             const timeInput = document.createElement("input");
@@ -64,7 +66,8 @@ export default class extends Controller {
             timeInput.dataset.date = weeklyData[i];
 
             labelForInput.appendChild(timeInput);
-            timeCell.appendChild(labelForInput);
+            controllerDiv.appendChild(labelForInput);
+            timeCell.appendChild(controllerDiv);
             newRow.appendChild(timeCell);
         }
 
