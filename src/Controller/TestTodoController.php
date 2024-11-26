@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\profile;
+namespace App\Controller;
 
 use App\Entity\Todo;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,17 +11,14 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TestTodoController extends AbstractController
 {
-
     private $entityManager;
+
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @throws \Exception
-     */
-    #[Route('/profile/gaab/{week?}-{year?}', name: 'app_test_todo', methods: ['GET'])]
+    #[Route('/profile/{week?}-{year?}', name: 'app_todo')]
     public function index(Request $request, int $week = null, int $year = null): Response
     {
         $timezone = new \DateTimeZone($_ENV['APP_TIMEZONE'] ?? 'Europe/Copenhagen');
@@ -104,14 +101,17 @@ class TestTodoController extends AbstractController
             $weeklyTotal += $dayTotal;
         }
 
-        return $this->render('profile/test_todo/index.html.twig', [
+        $weeklyDates = array_map(function ($day) {
+            return $day['date']->format('Y-m-d');
+        }, $data);
+
+        return $this->render('/test_todo/index.html.twig', [
             'week' => $week,
             'year' => $year,
             'weeklyData' => $data,
             'weeklyTotal' => $weeklyTotal,
             'todos' => $todos,
-
+            'weeklyDates' => $weeklyDates,
         ]);
     }
-
 }

@@ -4,7 +4,7 @@ import { Controller } from "@hotwired/stimulus";
  * DropdownController handles the behavior of custom dropdowns
  */
 export default class extends Controller {
-    static targets = ["select", "customDropdown", "menu", "search", "item", "selected"];
+    static targets = ["select", "customDropdown", "menu", "search", "item", "selected", "tableBody"];
 
     connect() {
         this.createCustomDropdown();
@@ -79,4 +79,68 @@ export default class extends Controller {
         // Close the menu
         menu.classList.add("hidden");
     }
+
+    addTodoToTable(event) {
+        console.log("addTodoToTable triggered");
+        console.log("Selected value:", this.selectTarget.value);
+
+        const selectedOption = this.selectTarget.selectedOptions[0];
+        const todoName = selectedOption.textContent.trim();
+        const todoId = selectedOption.getAttribute("data-id");
+
+        console.log("Selected Todo Name:", todoName);
+        console.log("Selected Todo ID:", todoId);
+
+        // Prevent adding the placeholder
+        if (!todoId) return;
+
+        // Check if the Todo is already in the table
+        const existingRow = this.tableBodyTarget.querySelector(`[data-todo-id="${todoId}"]`);
+        if (existingRow) {
+            alert("This Todo is already in the timetable.");
+            return;
+        }
+
+        console.log("Creating new row for Todo:", todoName);
+
+        // Create a new row for the timetable
+        const newRow = document.createElement("tr");
+        newRow.setAttribute("data-todo-id", todoId);
+
+        newRow.innerHTML = `
+        <td class="py-3 px-4 border-b text-sm bg-gray-50">
+            <a href="#" class="text-black hover:underline">${todoName}</a>
+        </td>
+        ${this.createTimeLogColumns(todoId)}
+        <td class="py-3 px-4 border-b text-center text-sm bg-gray-50">0h 0m</td>
+    `;
+
+        this.tableBodyTarget.appendChild(newRow);
+
+        // Reset the dropdown
+        this.selectTarget.value = "";
+    }
+
+    createTimeLogColumns(todoId) {
+        // Generate columns for each day in the week (replace `weeklyData` dynamically)
+        const days = JSON.parse(this.element.dataset.weeklyData || "[]"); // Assumes weeklyData is passed as JSON
+        return days
+            .map(
+                (day) => `
+                    <td class="py-3 px-4 border-b text-center text-sm ${
+                    day.isWeekend ? "bg-gray-100" : "bg-blue-50"
+                }">
+                        <input
+                            type="time"
+                            name="time_${day.date}_${todoId}"
+                            value="00:00"
+                            class="block mx-auto border-gray-300 rounded-md shadow-sm text-sm"
+                        />
+                    </td>
+                `
+            )
+            .join("");
+    }
+
+
 }

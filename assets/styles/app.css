@@ -1,7 +1,40 @@
-@import url(dropdown.css);
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Dropdown Select */
+.dropdown-select {
+    @apply bg-gray-50 border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 cursor-pointer shadow-sm hover:bg-gray-100;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    @apply  top-full left-0 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10 mt-1;
+}
+
+.dropdown-menu-search {background: rgb(219 234 254 / var(--tw-bg-opacity, 1))}
+/*!* Dropdown Menu Hidden *!*/
+/*.dropdown-menu.hidden {*/
+/*    @apply hidden;*/
+/*}*/
+
+/* Search Input */
+.dropdown-menu-search {
+    @apply w-full px-3 py-2 text-sm text-gray-700 border rounded-md focus:ring-1 focus:ring-blue-500 focus:outline-none;
+}
+
+/* Dropdown Menu Inner (Items Wrapper) */
+.dropdown-menu-inner {
+    @apply max-h-60 overflow-y-auto;
+}
+
+/* Dropdown Menu Item */
+.dropdown-menu-item {
+    @apply px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100;
+}
+
+/* Selected Dropdown Menu Item */
+.dropdown-menu-item.selected {
+    @apply bg-blue-100 text-blue-600;
+}
 
