@@ -47,51 +47,55 @@
                     {% for todo in todos %}
                         {% set row_total = 0 %}
 
-                            {% if todo.timelogs|length > 0 %}
+
+
+                        {# Filter timelogs for the current week #}
+                        {% set current_week_timelogs = todo.timelogs|filter(timelog =>
+                            timelog.date >= weeklyData[0].date and
+                            timelog.date <= weeklyData[6].date
+                        ) %}
+
+                        {% if current_week_timelogs|length > 0 %}
                             <tr id="row_{{ todo.id }}">
-                                <!-- Todo Name colum -->
+                                <!-- Todo Name Column -->
                                 <td class="py-3 px-4 border-b text-sm bg-gray-50">
                                     <a href="#" class="text-black hover:underline">{{ todo.name }}</a>
                                 </td>
-                                <!-- Todo Timelogs Colums -->
 
+                                <!-- Todo Timelogs Columns -->
                                 {% for day in weeklyData %}
                                     {% set day_total = 0 %}
                                     <td class="py-3 px-4 border-b text-center text-sm {% if day.date|date('N') in [6, 7] %}bg-gray-100{% else %}bg-blue-50{% endif %}">
-                                        {% for timelog in day.timelog %}
-                                            {% if timelog.todo_id == todo.id %}
+                                        {% for timelog in current_week_timelogs %}
+                                            {% if timelog.date == day.date %}
                                                 {% set day_total = day_total + timelog.hours * 60 + timelog.minutes %}
                                             {% endif %}
                                         {% endfor %}
                                         {% set row_total = row_total + day_total %}
 
-                                        <!-- Display Input Field with Auto-Save Logic -->
                                         <div data-controller="timelog-autosave">
-                                        <label>
-                                            <input
-                                                    type="time"
-                                                    name="time_{{ day.date|date('Ymd') }}_{{ todo.id }}"
-                                                    value="{% if day_total > 0 %}{{ '%02d:%02d'|format((day_total / 60)|round(0, 'floor'), day_total % 60) }}{% else %}00:00{% endif %}"
-                                                    class="block mx-auto border-gray-300 rounded-md shadow-sm autosave-input"
-                                                    data-todo-id="{{ todo.id }}"
-                                                    data-date="{{ day.date|date('Y-m-d') }}"
-                                            />
-                                        </label>
+                                            <label>
+                                                <input
+                                                        type="time"
+                                                        name="time_{{ day.date|date('Ymd') }}_{{ todo.id }}"
+                                                        value="{% if day_total > 0 %}{{ '%02d:%02d'|format((day_total / 60)|round(0, 'floor'), day_total % 60) }}{% else %}00:00{% endif %}"
+                                                        class="block mx-auto border-gray-300 rounded-md shadow-sm autosave-input"
+                                                        data-todo-id="{{ todo.id }}"
+                                                        data-date="{{ day.date|date('Y-m-d') }}"
+                                                />
+                                            </label>
                                         </div>
-
                                     </td>
                                 {% endfor %}
                                 <!-- Row Total -->
-                                <td class="py-3 px-4 border-b text-center text-sm  bg-gray-50">
+                                <td class="py-3 px-4 border-b text-center text-sm bg-gray-50">
                                     {{ (row_total / 60)|round(0, 'floor') }}h {{ row_total % 60 }}m
                                 </td>
                             </tr>
-
-                            {% endif %}
-
-                            <!-- add todo in tr,td here -->
+                        {% endif %}
                     {% endfor %}
                     </tbody>
+
                     <!-- Table Footer -->
                     <tfoot>
                     <tr>
@@ -108,7 +112,7 @@
                     </tfoot>
                 </table>
             </form>
-
+        </div>
         <form name="form-select-todo" id="form">
             <div class="form-group relative">
                 <label for="todo" class="">Add Todo</label>

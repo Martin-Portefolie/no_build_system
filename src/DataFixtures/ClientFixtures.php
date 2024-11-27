@@ -3,9 +3,10 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ClientFixtures extends Fixture
+class ClientFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -34,5 +35,13 @@ class ClientFixtures extends Fixture
         $manager->flush();
 
         echo "10 Clients have been added to the database.\n";
+    }
+
+    public function getDependencies()
+    {
+        return[
+            UserFixtures::class,
+        ];
+
     }
 }
