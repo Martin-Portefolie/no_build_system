@@ -9,34 +9,34 @@
             <div class="flex items-center justify-between mb-5">
                 <h1 class=" text-lg text-text-standard">Client Management</h1>
 
-                <!-- Create New Client Button -->
+                <!-- Create New ClientFixtures Button -->
                 <a href="{{ path('admin_client_new') }}"
                    class="inline-flex justify-center py-2 px-4 shadow-sm text-base  rounded-md text-white bg-button-new hover:bg-button-hover-new focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight">
                     Create New Client
                 </a>
             </div>
 
-            <!-- Client List -->
+            <!-- ClientFixtures List -->
             <div class="space-y-6">
                 {% for client in clientDataArray %}
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <form action="#" method="post">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <!-- Client Name -->
+                                <!-- ClientFixtures Name -->
                                 <div>
                                     <label for="name_{{ client.id }}" class="block text-sm text-text-standard ">Name</label>
                                     <input type="text" name="name" id="name_{{ client.id }}" value="{{ client.name }}"
                                            class="mt-1 block w-full px-4 py-2 border border rounded-md shadow-sm focus:outline-none text-text-standard">
                                 </div>
 
-                                <!-- Client Email -->
+                                <!-- ClientFixtures Email -->
                                 <div>
                                     <label for="email_{{ client.id }}" class="block text-sm text-text-standard ">Email</label>
                                     <input type="email" name="email" id="email_{{ client.id }}" value="{{ client.email }}"
                                            class="mt-1 block w-full px-4 py-2 border border rounded-md shadow-sm focus:outline-none text-text-paragraph">
                                 </div>
 
-                                <!-- Client Phone -->
+                                <!-- ClientFixtures Phone -->
                                 <div>
                                     <label for="phone_{{ client.id }}" class="block text-sm text-text-standard ">Phone</label>
                                     <input type="text" name="phone" id="phone_{{ client.id }}" value="{{ client.phone }}"

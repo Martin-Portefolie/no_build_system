@@ -33,17 +33,17 @@ class CreateClientCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // Create Client Entity
+        // Create ClientFixtures Entity
         $client = new Client();
         $client->setName('Heste-test Aps');
         $client->setContactPhone('12345678');
         $client->setContactEmail('MrHorse@Test.com');
 
-        // Save Client to Database
+        // Save ClientFixtures to Database
         $this->entityManager->persist($client);
         $this->entityManager->flush();
 
-        $io->success('Client "Heste-test aps" created with contact person "Mr Horse".');
+        $io->success('ClientFixtures "Heste-test aps" created with contact person "Mr Horse".');
 
         return Command::SUCCESS;
     }

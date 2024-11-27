@@ -44,7 +44,7 @@ class CreateProjectCommand extends Command
             ->findOneBy(['name' => 'Heste-test aps']);
 
         if (!$client) {
-            $io->error('Client "Heste-test aps" not found. Please create the client first.');
+            $io->error('ClientFixtures "Heste-test aps" not found. Please create the client first.');
             return Command::FAILURE;
         }
 

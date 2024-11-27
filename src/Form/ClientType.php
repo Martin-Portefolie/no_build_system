@@ -16,7 +16,7 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
 {
 $builder
 ->add('name', TextType::class, [
-'label' => 'Client Name',
+'label' => 'ClientFixtures Name',
 'attr' => ['class' => 'form-input']
 ])
 ->add('contactEmail', EmailType::class, [
